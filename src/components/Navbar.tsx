@@ -9,7 +9,7 @@ const Navbar = () => {
   const { isOpen, setIsOpen } = useNavigationBar();
   return (
     <>
-      <div className="flex justify-between items-center fixed w-full h-[52px] shadow-sm bg-white">
+      <div className="flex justify-between items-center fixed w-full h-[52px] shadow-sm bg-white z-50">
         <div className="text-2xl lg:text-3xl cursor-pointer py-0 px-5 font-medium">
           <Link href="/">iFOOD</Link>
         </div>
