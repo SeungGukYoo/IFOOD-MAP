@@ -6,4 +6,22 @@
   .navigation__btn {
     @apply text-[12px] cursor-pointer focus:text-gray-700 hover:text-gray-700 md:text-[18px] lg:text-[20px];
   }
+  .info_box {
+    @apply flex items-center gap-2 mb-2;
+  }
+}
+
+.infoWindow {
+  @apply backdrop-blur  text-black block text-sm text-center h-6 rounded-md px-2 leading-6;
+}
+
+@keyframes popUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
 }
