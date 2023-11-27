@@ -1,23 +1,12 @@
-import useMap from "@/hooks/useMap";
-import Script from "next/script";
+import { getStoreData } from "@/app/lib/getStoreData";
+
 import React from "react";
-import StoreBox from "./StoreBox";
+import MapBox from "./MapBox";
 
-const Map = () => {
-  const { currentSotre, loadKakaoMap, setCurrentSotre } = useMap();
+const Map = async () => {
+  const storeData = await getStoreData();
 
-  return (
-    <>
-      <div id="map" className="w-full h-[calc(100vh-52px)]"></div>
-      <Script
-        strategy="afterInteractive"
-        type="text/javascript"
-        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_KEY}&autoload=false`}
-        onReady={loadKakaoMap}
-      />
-      {currentSotre && <StoreBox store={currentSotre} setCurrentSotre={setCurrentSotre} />}
-    </>
-  );
+  return <MapBox store={storeData.data["DATA"]} />;
 };
 
 export default Map;
