@@ -1,7 +1,10 @@
+import StoresList from "@/components/StoresList";
 import React from "react";
+import { getStoreData } from "../lib/getStoreData";
 
-const NewPage = () => {
-  return <div>stores page</div>;
+const Stores = async () => {
+  const storesData = await getStoreData();
+  return <StoresList stores={storesData.data["DATA"]} />;
 };
 
-export default NewPage;
+export default Stores;
