@@ -1,10 +1,12 @@
-"use client";
 import Map from "@/components/Map";
 
-export default function Home() {
+import { getStoreData } from "./lib/getStoreData";
+
+export default async function Home() {
+  const storeData = await getStoreData();
   return (
     <>
-      <Map />
+      <Map store={storeData.data["DATA"]} />
     </>
   );
 }
