@@ -1,3 +1,4 @@
+"use client";
 import { StoreType } from "@/hooks/useMap";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
@@ -17,7 +18,7 @@ interface StoreProps {
 const StoreBox = ({ store, setCurrentSotre }: StoreProps) => {
   const [like, setLike] = useState(false);
   return (
-    <div className="z-50 fixed transition ease-in-out delay-150 inset-x-0 mx-auto bottom-20 rounded-lg shadow-lg max-w-sm md:max-w-2xl w-full bg-white animate-[popUp_0.1s_ease-in]">
+    <div className="z-10 fixed transition ease-in-out delay-150 inset-x-0 mx-auto bottom-20 rounded-lg shadow-lg max-w-sm md:max-w-2xl w-full bg-white animate-[popUp_0.1s_ease-in]">
       <div className="p-8 flex flex-col items-start gap-3 relative">
         <div className="flex justify-between w-full">
           <div className="flex items-center gap-2">

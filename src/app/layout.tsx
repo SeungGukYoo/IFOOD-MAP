@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko">
       <body className={inter.className}>
         <Navbar />
-        <div className="pt-[52px]">{children}</div>
+        <div className="pt-[52px] z-10">{children}</div>
       </body>
     </html>
   );

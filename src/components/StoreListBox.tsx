@@ -6,7 +6,7 @@ import React from "react";
 const StoreListBox = ({ store }: { store: StoreType }) => {
   return (
     <li className="flex justify-between items-center gap-x-6 py-5">
-      <div className="flex items-center gap-3 flex-2 ">
+      <div className="flex items-center gap-3 flex-2">
         <Image src={`/images/markers/${imageHandler(store.bizcnd_code_nm)}`} alt="store img" width={45} height={45} />
         <div>
           <p className="text-[14px] md:text-lg">{store.upso_nm}</p>

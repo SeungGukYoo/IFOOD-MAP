@@ -14,7 +14,7 @@ const Map = ({ store }: { store: StoreType[] }) => {
   }, [store, setStoreData]);
 
   return (
-    <div className="-z-10">
+    <div>
       <div id="map" className="w-full h-[calc(100vh-52px)]"></div>
       <Script
         strategy="afterInteractive"
