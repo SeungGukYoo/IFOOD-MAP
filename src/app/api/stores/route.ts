@@ -1,8 +1,9 @@
+import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/dist/server/web/spec-extension/response";
 
 type Data = { name: string };
 export async function GET() {
-  const data = await import("@/data/seoul_store.json");
-
-  return NextResponse.json({ data });
+  const prisma = new PrismaClient();
+  const stores = await prisma.store.findMany();
+  return NextResponse.json({ data: stores });
 }

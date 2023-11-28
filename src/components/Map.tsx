@@ -1,10 +1,11 @@
 "use client";
-import useMap, { StoreType } from "@/hooks/useMap";
+import { StoresType } from "@/app/page";
+import useMap from "@/hooks/useMap";
 import Script from "next/script";
 import React, { useEffect } from "react";
 import StoreBox from "./StoreBox";
 
-const Map = ({ store }: { store: StoreType[] }) => {
+const Map = ({ store }: { store: StoresType }) => {
   const { currentSotre, setStoreData, loadKakaoMap, setCurrentSotre } = useMap();
 
   useEffect(() => {

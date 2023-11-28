@@ -1,10 +1,10 @@
 "use client";
-import { StoreType } from "@/hooks/useMap";
 
+import { StoresType } from "@/app/page";
 import React from "react";
 import { IoSearch } from "react-icons/io5";
 import StoreListBox from "./StoreListBox";
-const StoresList = ({ stores }: { stores: StoreType[] }) => {
+const StoresList = ({ stores }: { stores: StoresType }) => {
   return (
     <div className="max-w-[1024px] mx-auto px-4  relative z-10">
       <div className="w-full flex justify-between gap-3 py-8">
@@ -23,9 +23,7 @@ const StoresList = ({ stores }: { stores: StoreType[] }) => {
         </select>
       </div>
       <ul className="divide-y-2 divide-gray-100">
-        {stores.map((store, idx) => (
-          <StoreListBox key={idx} store={store} />
-        ))}
+        {stores && stores.map((store) => <StoreListBox key={store.id} store={store} />)}
       </ul>
     </div>
   );
