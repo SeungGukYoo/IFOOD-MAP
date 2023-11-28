@@ -9,3 +9,21 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User{
+  id      Int     @id @default(autoincrement())
+  email   String  @unique
+  name    String 
+}
+
+model Store{
+  id              Int       @id @default(autoincrement())
+  phone           String?
+  address         String?
+  lat             String?  // y_dnts
+  lng             String?  // x_cnts
+  name            String?
+  category        String?
+  storeType       String?
+  foodCertifyName String?
+}
