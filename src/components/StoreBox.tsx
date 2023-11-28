@@ -1,5 +1,5 @@
 "use client";
-import { StoreType } from "@/hooks/useMap";
+
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa6";
@@ -8,9 +8,11 @@ import { FcLike } from "react-icons/fc";
 import { IoCloseSharp, IoInformationCircle } from "react-icons/io5";
 import { MdLocationPin } from "react-icons/md";
 
+import { StoreType } from "@/app/page";
 import imageHandler from "@/util/markerHandler";
 import Image from "next/image";
 import React, { useState } from "react";
+
 interface StoreProps {
   store: StoreType;
   setCurrentSotre: React.Dispatch<React.SetStateAction<StoreType | null>>;
@@ -22,10 +24,10 @@ const StoreBox = ({ store, setCurrentSotre }: StoreProps) => {
       <div className="p-8 flex flex-col items-start gap-3 relative">
         <div className="flex justify-between w-full">
           <div className="flex items-center gap-2">
-            <Image src={"/images/markers/" + imageHandler(store.bizcnd_code_nm)} alt="image" width={50} height={50} />
+            <Image src={"/images/markers/" + imageHandler(store.category)} alt="image" width={50} height={50} />
             <div className="flex flex-col">
-              <p className=" font-bold">{store.upso_nm}</p>
-              <span className="text-sm text-gray-500">{store.cob_code_nm}</span>
+              <p className=" font-bold">{store.name}</p>
+              <span className="text-sm text-gray-500">{store.storeType}</span>
             </div>
           </div>
           <button onClick={() => setCurrentSotre(null)}>
@@ -37,19 +39,19 @@ const StoreBox = ({ store, setCurrentSotre }: StoreProps) => {
           <div>
             <div className="info_box">
               <MdLocationPin />
-              {store.rdn_code_nm}
+              {store.address || "미등록"}
             </div>
             <div className="info_box">
               <BsFillTelephoneFill />
-              {store.tel_no || "번호 없음"}
+              {store.phone || "번호 없음"}
             </div>
             <div className="info_box text-gray-500 text-sm">
               <IoInformationCircle />
-              {store.crtfc_gbn_nm}
+              {store.foodCertifyName || "미분류"}
             </div>
             <div className="info_box text-gray-500  text-sm">
               <FaCheck />
-              {store.bizcnd_code_nm}
+              {store.category || "미분류"}
             </div>
           </div>
           <button onClick={() => setLike((prev) => (prev = !prev))} className="text-xl">
