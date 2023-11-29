@@ -1,18 +1,17 @@
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import React, { ReactNode } from "react";
 
 const LinkWrapper = ({ children, href, page }: { children: ReactNode; href: string; page: number }) => {
   if (page === 0) {
     return (
-      <button disabled className="text-gray-500">
+      <button disabled className="text-gray-300">
         {children}
       </button>
     );
   }
   if (page === 54) {
     return (
-      <button disabled className="text-gray-500">
+      <button disabled className="text-gray-300">
         {children}
       </button>
     );
