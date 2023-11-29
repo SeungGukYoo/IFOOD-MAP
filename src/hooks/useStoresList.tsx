@@ -1,11 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
-import type { StoreType } from "./useMap";
+import { getStoreData } from "@/app/lib/getStoreData";
+import { useQuery } from "react-query";
 
 const useStoresList = () => {
-  const [stores, setStores] = useState<null | StoreType[]>(null);
-  return { stores, setStores };
+  const { isLoading, isSuccess, isError, data } = useQuery("stores", () => getStoreData("ssr"), {
+    staleTime: 1800000,
+    refetchOnWindowFocus: false,
+  });
+
+  return { isLoading, isSuccess, isError, data };
 };
 
 export default useStoresList;
