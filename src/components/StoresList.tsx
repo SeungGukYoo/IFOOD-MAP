@@ -2,15 +2,23 @@
 
 import { StoresType } from "@/app/page";
 import useStoresList from "@/hooks/useStoresList";
+import {
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+  MdKeyboardDoubleArrowLeft,
+  MdKeyboardDoubleArrowRight,
+} from "react-icons/md";
+
 import React from "react";
 import { IoSearch } from "react-icons/io5";
 import { TbError404 } from "react-icons/tb";
 import LoadingBox from "./LoadingBox";
+import PageNavigation from "./PageNavigation";
 import StoreListBox from "./StoreListBox";
 
 const StoresList = () => {
   const { isLoading, isError, isSuccess, data: stores } = useStoresList();
-
+  console.log(stores);
   if (isError) {
     return (
       <div className="w-full h-[calc(100vh-52px)] flex flex-col justify-center items-center text-lg md:text-xl text-center">
@@ -37,16 +45,31 @@ const StoresList = () => {
           <option value="3">3</option>
         </select>
       </div>
-      <ul className="divide-y-2 divide-gray-100">
-        {isLoading && <LoadingBox />}
-        {isSuccess && (
-          <>
-            {(stores.data as StoresType).map((store) => (
-              <StoreListBox key={store.id} store={store} />
-            ))}
-          </>
-        )}
-      </ul>
+      {isLoading && <LoadingBox />}
+      {isSuccess && (
+        <>
+          <ul className="divide-y-2 divide-gray-100">
+            <>
+              {(stores?.data as StoresType).map((store) => (
+                <StoreListBox key={store.id} store={store} />
+              ))}
+            </>
+          </ul>
+          <div className="py-6 w-full flex justify-between  items-center gap-2 bg-white my-10 flex-wrap md:justify-center md:px-12 md:py-12">
+            <div className="flex gap-1">
+              <MdKeyboardDoubleArrowLeft className="w-[20px] h-[20px] md:w-7 md:h-7" />
+              <MdKeyboardArrowLeft className="hidden md:block w-[20px] h-[20px] md:w-7 md:h-7" />
+            </div>
+            <div className="flex gap-3 items-center">
+              <PageNavigation totalPage={stores?.totalPage} currentPage={stores?.page} />
+            </div>
+            <div className="flex gap-1">
+              <MdKeyboardArrowRight className="hidden md:block w-[20px] h-[20px] md:w-7 md:h-7" />
+              <MdKeyboardDoubleArrowRight className="w-[20px] h-[20px] md:w-7 md:h-7" />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
