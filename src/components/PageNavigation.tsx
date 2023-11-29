@@ -14,7 +14,7 @@ const PageNavigation = ({
         <Link
           href={`/stores?page=${idx + 1}`}
           key={idx}
-          className={idx + 1 === currentPage ? "text-black font-semibold" : "text-gray-400"}
+          className={`pagenation_btn ${idx + 1 === currentPage ? "text-black font-semibold" : "text-gray-400"}`}
         >
           {idx + 1}
         </Link>
@@ -25,7 +25,9 @@ const PageNavigation = ({
           <Link
             href={`/stores?page=${totalPage - 8 + idx}`}
             key={totalPage - 8 + idx}
-            className={totalPage - 8 + idx === currentPage ? "text-black font-semibold" : "text-gray-400"}
+            className={`pagenation_btn ${
+              totalPage - 8 + idx === currentPage ? "text-black font-semibold" : "text-gray-400"
+            }`}
           >
             {totalPage - 8 + idx}
           </Link>
@@ -37,7 +39,7 @@ const PageNavigation = ({
           <Link
             href={`/stores?page=${currentPage - 4 + idx}`}
             key={currentPage - 4 + idx}
-            className={`md:text-xl ${
+            className={`pagenation_btn ${
               currentPage - 4 + idx === currentPage ? "text-black font-semibold" : "text-gray-400"
             }`}
           >
