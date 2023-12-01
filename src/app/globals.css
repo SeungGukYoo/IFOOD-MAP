@@ -9,6 +9,9 @@
   .info_box {
     @apply flex items-center gap-2 mb-2;
   }
+  .pagenation_btn {
+    @apply md:text-xl lg:text-2xl;
+  }
 }
 
 .infoWindow {

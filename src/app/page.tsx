@@ -17,7 +17,8 @@ export type StoreDataType = {
   data: StoresType;
 };
 export default async function Home() {
-  const storeData: StoreDataType = await getStoreData("isr");
+  const storeData: StoreDataType = await getStoreData();
+
   return (
     <>
       <Map store={storeData.data} />

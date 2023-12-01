@@ -31,7 +31,7 @@ const useMap = () => {
     if (map && storeData) {
       storeData.forEach((store, idx) => {
         let { lat, lng } = store;
-        let imageSrc = "/images/markers/" + markerHandler(store?.name);
+        let imageSrc = "/images/markers/" + markerHandler(store?.category);
         let imgMarker = new kakao.maps.MarkerImage(imageSrc, new kakao.maps.Size(40, 40), {
           offset: new kakao.maps.Point(27, 69),
           alt: "마커 이미지",
