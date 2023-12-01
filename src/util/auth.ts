@@ -1,11 +1,14 @@
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
 import { NextAuthOptions, getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 
 // get current login info (only back end)
-
+const prisma = new PrismaClient()
 export const config = {
+  adapter:PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID??"",
