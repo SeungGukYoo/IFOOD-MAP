@@ -39,6 +39,10 @@ model User{
   name            String 
   emailVerified   DateTime?
   image           String?
+  picture         String?
+  iat             Int?
+  exp             Int?
+  jti             String?
   account         Account[]
   session         Session[]
 }
