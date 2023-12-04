@@ -1,12 +1,15 @@
 "use client";
 import useNavigationBar from "@/hooks/useNavigationBar";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiMenu } from "react-icons/bi";
+import LoadingSpiner from "./LoadingSpiner";
 
 const Navbar = () => {
-  const { isOpen, setIsOpen } = useNavigationBar();
+  const { session, isOpen, setIsOpen } = useNavigationBar();
+
   return (
     <>
       <div className="flex justify-between items-center fixed w-full h-[52px] shadow-sm bg-white z-50">
@@ -25,9 +28,21 @@ const Navbar = () => {
           <Link className="navigation__btn" href="/user/likes">
             찜한 가게
           </Link>
-          <Link className="navigation__btn" href="/user/login">
-            로그인
-          </Link>
+          {session?.status === "authenticated" || session?.status === "unauthenticated" ? (
+            <>
+              {session?.status === "authenticated" ? (
+                <button className="navigation__btn" onClick={() => signOut({ callbackUrl: "http://localhost:3000/" })}>
+                  로그아웃
+                </button>
+              ) : (
+                <Link className="navigation__btn" href="/user/login">
+                  로그인
+                </Link>
+              )}
+            </>
+          ) : (
+            <LoadingSpiner />
+          )}
         </div>
         <div role="presentation" className="text-2xl px-5 md:hidden" onClick={() => setIsOpen((prev) => !prev)}>
           {isOpen ? <AiOutlineClose /> : <BiMenu />}
