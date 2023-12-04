@@ -61,9 +61,26 @@ const Navbar = () => {
             <Link onClick={() => setIsOpen((prev) => (prev = false))} href="/user/likes">
               찜한 가게
             </Link>
-            <Link onClick={() => setIsOpen((prev) => (prev = false))} href="/user/login">
-              로그인
-            </Link>
+            {session?.status === "authenticated" || session?.status === "unauthenticated" ? (
+              <>
+                {session?.status === "authenticated" ? (
+                  <button
+                    onClick={() => {
+                      signOut({ callbackUrl: "http://localhost:3000/" });
+                      setIsOpen((prev) => (prev = false));
+                    }}
+                  >
+                    로그아웃
+                  </button>
+                ) : (
+                  <Link href="/user/login" onClick={() => setIsOpen((prev) => (prev = false))}>
+                    로그인
+                  </Link>
+                )}
+              </>
+            ) : (
+              <LoadingSpiner />
+            )}
           </div>
         </div>
       )}
