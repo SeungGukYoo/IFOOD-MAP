@@ -1,5 +1,5 @@
 import Map from "@/components/Map";
-import { getStoreData } from "./lib/getStoreData";
+import { getStoresData } from "./lib/getStoresData";
 
 export interface StoreType {
   id: number;
@@ -17,7 +17,7 @@ export type StoreDataType = {
   data: StoresType;
 };
 export default async function Home() {
-  const storeData: StoreDataType = await getStoreData();
+  const storeData: StoreDataType = await getStoresData();
 
   return (
     <>

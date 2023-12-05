@@ -1,6 +1,6 @@
 "use client";
 
-import getStorePageData from "@/app/lib/getStorePageData";
+import getStoresPageData from "@/app/lib/getStorePageData";
 import { useEffect, useRef } from "react";
 import { useInfiniteQuery } from "react-query";
 
@@ -9,7 +9,7 @@ const useStoresList = () => {
   const topPos = useRef<HTMLDivElement | null>(null);
   const { data, isLoading, isFetching, isSuccess, isError, fetchNextPage, hasNextPage } = useInfiniteQuery(
     `stores`,
-    ({ pageParam = 1 }) => getStorePageData(pageParam),
+    ({ pageParam = 1 }) => getStoresPageData(pageParam),
     {
       staleTime: 1800000,
       refetchOnWindowFocus: false,
