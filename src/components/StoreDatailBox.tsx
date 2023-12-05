@@ -14,8 +14,9 @@ const StoreDatailBox = ({ params }: { params: string }) => {
     isError,
     isSuccess,
   } = useQuery({
-    queryKey: [params],
+    queryKey: ["store", params],
     queryFn: () => getStoreData(params),
+    staleTime: 60 * 1000 * 5,
   });
 
   // console.log(useQueryClient().getQueryData([params]));
@@ -35,19 +36,18 @@ const StoreDatailBox = ({ params }: { params: string }) => {
         <div className="border-t border-gray-100 mt-6">
           <dl className="divide-y divide-gray-100">
             <div className="py-6 px-4 grid grid-cols-3 gap-4 md:text-lg">
-              <dt className="font-medium leading-6 text-gray-900">가게명</dt>
-
-              <dd className="leading-6 text-gray-700 col-span-2 flex items-center"></dd>
+              <dt className="font-medium leading-6 text-gray-900">이름</dt>
+              <dd className="leading-6 text-gray-700 col-span-2 flex items-center">{store.name}</dd>
             </div>
             <div className="py-6 px-4 grid grid-cols-3 gap-4 md:text-lg">
               <dt className="font-medium leading-6 text-gray-900">번호</dt>
 
-              <dd className="leading-6 text-gray-700 col-span-2 flex items-center">{"-"}</dd>
+              <dd className="leading-6 text-gray-700 col-span-2 flex items-center">{store.phone || "-"}</dd>
             </div>
             <div className="py-6 px-4 grid grid-cols-3 gap-4 md:text-lg">
               <dt className="font-medium leading-6 text-gray-900">주소</dt>
 
-              <dd className="leading-6 text-gray-700 col-span-2 flex items-center">{}</dd>
+              <dd className="leading-6 text-gray-700 col-span-2 flex items-center">{store.address}</dd>
             </div>
             <div className="py-6 px-4 grid grid-cols-3 gap-4 md:text-lg">
               <dt className="font-medium leading-6 text-gray-900">음식</dt>
@@ -57,12 +57,12 @@ const StoreDatailBox = ({ params }: { params: string }) => {
             <div className="py-6 px-4 grid grid-cols-3 gap-4 md:text-lg">
               <dt className="font-medium leading-6 text-gray-900">특징</dt>
 
-              <dd className="leading-6 text-gray-700 col-span-2 flex items-center">{}</dd>
+              <dd className="leading-6 text-gray-700 col-span-2 flex items-center">{store.foodCertifyName}</dd>
             </div>
             <div className="py-6 px-4 grid grid-cols-3 gap-4 md:text-lg">
               <dt className="font-medium leading-6 text-gray-900">업소 종류</dt>
 
-              <dd className="leading-6 text-gray-700 col-span-2 flex items-center">{}</dd>
+              <dd className="leading-6 text-gray-700 col-span-2 flex items-center">{store.storeType}</dd>
             </div>
           </dl>
         </div>
