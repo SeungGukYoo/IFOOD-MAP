@@ -14,15 +14,8 @@ interface MapProps {
 const DEFAULT_LAT = 37.497625203;
 const DEFAULT_LNG = 127.03088379;
 const Map = ({ store, lat = DEFAULT_LAT, lng = DEFAULT_LNG }: MapProps) => {
+  const { currentSotre, setStoreData, loadKakaoMap, setCurrentSotre } = useMap(lat, lng);
   let path = usePathname();
-
-  if (typeof lat === "string" && typeof lng === "string") {
-    lat = parseFloat(lat);
-    lng = parseFloat(lng);
-  }
-
-  const { currentSotre, setStoreData, loadKakaoMap, setCurrentSotre } = useMap(lat as number, lng as number);
-
   useEffect(() => {
     if (store) {
       setStoreData(store);

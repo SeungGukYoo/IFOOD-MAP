@@ -4,7 +4,11 @@ import { StoreType, StoresType } from "@/app/page";
 import markerHandler from "@/util/markerHandler";
 import React, { useEffect, useState } from "react";
 
-const useMap = (lat: number, lng: number) => {
+const useMap = (lat: number | string, lng: number | string) => {
+  if (typeof lat === "string" && typeof lng === "string") {
+    lat = parseFloat(lat);
+    lng = parseFloat(lng);
+  }
   const [map, setMap] = useState<null | kakao.maps.Map>(null);
   const [storeData, setStoreData] = useState<null | StoresType>(null);
   const [currentSotre, setCurrentSotre] = useState<StoreType | null>(null);
@@ -15,7 +19,7 @@ const useMap = (lat: number, lng: number) => {
       const mapContainer = document.getElementById("map") as HTMLElement;
 
       const mapOption = {
-        center: new kakao.maps.LatLng(lat, lng),
+        center: new kakao.maps.LatLng(lat as number, lng as number),
         level: 3,
       };
 
@@ -26,16 +30,17 @@ const useMap = (lat: number, lng: number) => {
 
   useEffect(() => {
     const resizeEvent = () => {
-      map?.setCenter(new kakao.maps.LatLng(lat, lng));
+      map?.setCenter(new kakao.maps.LatLng(lat as number, lng as number));
     };
     if (map && storeData?.length === 1) {
       window.addEventListener("resize", () => resizeEvent());
     }
     return window.removeEventListener("resize", resizeEvent);
   }, [map, storeData, lat, lng]);
+
   useEffect(() => {
     if (map && storeData) {
-      storeData.forEach((store, idx) => {
+      storeData.forEach((store) => {
         let { lat, lng } = store;
         let imageSrc = "/images/markers/" + markerHandler(store?.category);
         let imgMarker = new kakao.maps.MarkerImage(imageSrc, new kakao.maps.Size(40, 40), {
@@ -62,8 +67,10 @@ const useMap = (lat: number, lng: number) => {
           customOverlay.setMap(null);
         });
         kakao.maps.event.addListener(marker, "click", () => {
-          customOverlay.setMap(map);
-          setCurrentSotre(store);
+          if (storeData.length !== 1) {
+            customOverlay.setMap(map);
+            setCurrentSotre(store);
+          }
         });
       });
     }
