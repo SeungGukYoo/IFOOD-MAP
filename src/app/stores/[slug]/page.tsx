@@ -12,7 +12,6 @@ const DetailPage = async ({ params }: { params: { slug: string } }) => {
     staleTime: 60 * 1000 * 5,
   });
   const dehydratedState = dehydrate(queryClient);
-  console.log(dehydratedState.queries[0].state.data, "this is async compo");
 
   return (
     <HydrationBoundary state={dehydratedState}>
