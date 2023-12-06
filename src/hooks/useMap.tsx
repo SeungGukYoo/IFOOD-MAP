@@ -4,10 +4,7 @@ import { StoreType, StoresType } from "@/app/page";
 import markerHandler from "@/util/markerHandler";
 import React, { useEffect, useState } from "react";
 
-const DEFAULT_LAT = 37.497625203;
-const DEFAULT_LNG = 127.03088379;
-
-const useMap = () => {
+const useMap = (lat: number, lng: number) => {
   const [map, setMap] = useState<null | kakao.maps.Map>(null);
   const [storeData, setStoreData] = useState<null | StoresType>(null);
   const [currentSotre, setCurrentSotre] = useState<StoreType | null>(null);
@@ -18,7 +15,7 @@ const useMap = () => {
       const mapContainer = document.getElementById("map") as HTMLElement;
 
       const mapOption = {
-        center: new kakao.maps.LatLng(DEFAULT_LAT, DEFAULT_LNG),
+        center: new kakao.maps.LatLng(lat, lng),
         level: 3,
       };
 
@@ -27,6 +24,15 @@ const useMap = () => {
     });
   };
 
+  useEffect(() => {
+    const resizeEvent = () => {
+      map?.setCenter(new kakao.maps.LatLng(lat, lng));
+    };
+    if (map && storeData?.length === 1) {
+      window.addEventListener("resize", () => resizeEvent());
+    }
+    return window.removeEventListener("resize", resizeEvent);
+  }, [map, storeData, lat, lng]);
   useEffect(() => {
     if (map && storeData) {
       storeData.forEach((store, idx) => {
