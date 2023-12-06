@@ -1,23 +1,20 @@
 "use client";
 
-import getStorePageData from "@/app/lib/getStorePageData";
+import getStoresPageData from "@/app/lib/getStorePageData";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
-import { useInfiniteQuery } from "react-query";
 
 const useStoresList = () => {
   const observeTarget = useRef<null | HTMLDivElement>(null);
   const topPos = useRef<HTMLDivElement | null>(null);
-  const { data, isLoading, isFetching, isSuccess, isError, fetchNextPage, hasNextPage } = useInfiniteQuery(
-    `stores`,
-    ({ pageParam = 1 }) => getStorePageData(pageParam),
-    {
-      staleTime: 1800000,
-      refetchOnWindowFocus: false,
-      getNextPageParam: (lastPage) => {
-        return lastPage.data.length > 0 ? lastPage.page + 1 : undefined;
-      },
-    }
-  );
+  const { data, isLoading, isFetching, isSuccess, isError, fetchNextPage, hasNextPage } = useInfiniteQuery({
+    queryKey: ["stores"],
+    queryFn: ({ pageParam }) => getStoresPageData(pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      return lastPage.data.length > 0 ? lastPage.page + 1 : undefined;
+    },
+  });
 
   const moveTopPage = () => {
     topPos.current?.scrollIntoView({

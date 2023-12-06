@@ -11,6 +11,7 @@ import { MdLocationPin } from "react-icons/md";
 import { StoreType } from "@/app/page";
 import imageHandler from "@/util/markerHandler";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 
 interface StoreProps {
@@ -59,9 +60,13 @@ const StoreBox = ({ store, setCurrentSotre }: StoreProps) => {
           </button>
         </div>
       </div>
-      <div className="transition duration-75 bg-blue-500 text-center text-white text-md font-bold py-3 rounded-t-sm rounded-b-lg focus:bg-blue-700 hover:bg-blue-700">
+      <Link
+        href={`/stores/${store.id}`}
+        scroll={false}
+        className="transition block duration-75 bg-blue-500 text-center text-white text-md font-bold py-3 rounded-t-sm rounded-b-lg focus:bg-blue-700 hover:bg-blue-700"
+      >
         상세보기
-      </div>
+      </Link>
     </div>
   );
 };

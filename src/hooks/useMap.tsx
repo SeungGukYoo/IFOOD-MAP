@@ -4,10 +4,11 @@ import { StoreType, StoresType } from "@/app/page";
 import markerHandler from "@/util/markerHandler";
 import React, { useEffect, useState } from "react";
 
-const DEFAULT_LAT = 37.497625203;
-const DEFAULT_LNG = 127.03088379;
-
-const useMap = () => {
+const useMap = (lat: number | string, lng: number | string) => {
+  if (typeof lat === "string" && typeof lng === "string") {
+    lat = parseFloat(lat);
+    lng = parseFloat(lng);
+  }
   const [map, setMap] = useState<null | kakao.maps.Map>(null);
   const [storeData, setStoreData] = useState<null | StoresType>(null);
   const [currentSotre, setCurrentSotre] = useState<StoreType | null>(null);
@@ -18,7 +19,7 @@ const useMap = () => {
       const mapContainer = document.getElementById("map") as HTMLElement;
 
       const mapOption = {
-        center: new kakao.maps.LatLng(DEFAULT_LAT, DEFAULT_LNG),
+        center: new kakao.maps.LatLng(lat as number, lng as number),
         level: 3,
       };
 
@@ -28,8 +29,18 @@ const useMap = () => {
   };
 
   useEffect(() => {
+    const resizeEvent = () => {
+      map?.setCenter(new kakao.maps.LatLng(lat as number, lng as number));
+    };
+    if (map && storeData?.length === 1) {
+      window.addEventListener("resize", () => resizeEvent());
+    }
+    return window.removeEventListener("resize", resizeEvent);
+  }, [map, storeData, lat, lng]);
+
+  useEffect(() => {
     if (map && storeData) {
-      storeData.forEach((store, idx) => {
+      storeData.forEach((store) => {
         let { lat, lng } = store;
         let imageSrc = "/images/markers/" + markerHandler(store?.category);
         let imgMarker = new kakao.maps.MarkerImage(imageSrc, new kakao.maps.Size(40, 40), {
@@ -56,8 +67,10 @@ const useMap = () => {
           customOverlay.setMap(null);
         });
         kakao.maps.event.addListener(marker, "click", () => {
-          customOverlay.setMap(map);
-          setCurrentSotre(store);
+          if (storeData.length !== 1) {
+            customOverlay.setMap(map);
+            setCurrentSotre(store);
+          }
         });
       });
     }
