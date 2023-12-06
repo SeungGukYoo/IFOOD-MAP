@@ -1,8 +1,6 @@
 import { StoreType } from "../page";
-interface StoreData {
-  data: StoreType;
-}
-export const getStoreData: (id: string) => Promise<StoreData> = async (id: string) => {
+
+export const getStoreData: (id: string) => Promise<StoreType> = async (id: string) => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/store?id=${id}`, { method: "GET" });
     if (!response.ok) {
