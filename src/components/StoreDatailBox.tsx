@@ -1,8 +1,9 @@
 "use client";
 
 import { getStoreData } from "@/app/lib/getStoreData";
+import useLocation from "@/hooks/useLocation";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect } from "react";
 import ErrorBox from "./ErrorBox";
 import Map from "./Map";
 
@@ -54,7 +55,7 @@ const StoreDatailBox = ({ params }: { params: string }) => {
               <dd className="leading-6 text-gray-700 col-span-2 flex items-center">{data?.storeType || "-"}</dd>
             </div>
             <div className="py-6 px-4">
-              <Map store={[data]} lat={data?.lat ?? undefined} lng={data?.lng ?? undefined} />
+              <Map store={[data]} />
             </div>
           </dl>
         </div>
