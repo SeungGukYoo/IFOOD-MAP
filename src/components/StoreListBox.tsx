@@ -14,7 +14,7 @@ const StoreListBox = ({ store }: { store: StoreType }) => {
       <button onClick={moveDetailPage} className="flex w-full justify-between items-center gap-x-6 py-5">
         <div className="flex items-center gap-3 flex-2">
           <Image src={`/images/markers/${imageHandler(store.category)}`} alt="store img" width={45} height={45} />
-          <div>
+          <div className="flex flex-col items-start">
             <p className="text-[14px] md:text-lg">{store.name}</p>
             <p className="hidden text-sm md:text-lg text-zinc-400 md:block">{store.storeType}</p>
           </div>
