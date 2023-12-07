@@ -10,26 +10,28 @@ import NaverProvider from 'next-auth/providers/naver';
 
 const prisma = new PrismaClient()
 export const config = {
-  adapter:PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID??"",
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET ?? "",
     }),
     NaverProvider({
-      clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID??"",
+      clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID ?? "",
       clientSecret: process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET ?? "",
     }),
     KakaoProvider({
-      clientId: process.env.NEXT_PUBLIC_KAKAO_KEY??"",
+      clientId: process.env.NEXT_PUBLIC_KAKAO_KEY ?? "",
       clientSecret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_KEY ?? "",
     })
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy:'jwt'
+    strategy: 'jwt',
+    maxAge: 60 * 60 * 12,
+    updateAge: 60 * 60 * 2,
   }
-} satisfies NextAuthOptions
+} satisfies NextAuthOptions;
 
 export function auth(...args: [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]] | [NextApiRequest, NextApiResponse] | []) {
 	return getServerSession(...args,config)
