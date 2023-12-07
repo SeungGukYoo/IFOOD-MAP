@@ -2,13 +2,11 @@
 
 import { StoreType, StoresType } from "@/app/page";
 import markerHandler from "@/util/markerHandler";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import useLocationStore from "./useLocationStore";
 
-const useMap = (lat: number | string, lng: number | string) => {
-  if (typeof lat === "string" && typeof lng === "string") {
-    lat = parseFloat(lat);
-    lng = parseFloat(lng);
-  }
+const useMap = () => {
+  const { latitude, longitude } = useLocationStore();
   const [map, setMap] = useState<null | kakao.maps.Map>(null);
   const [storeData, setStoreData] = useState<null | StoresType>(null);
   const [currentSotre, setCurrentSotre] = useState<StoreType | null>(null);
@@ -19,7 +17,7 @@ const useMap = (lat: number | string, lng: number | string) => {
       const mapContainer = document.getElementById("map") as HTMLElement;
 
       const mapOption = {
-        center: new kakao.maps.LatLng(lat as number, lng as number),
+        center: new kakao.maps.LatLng(latitude, longitude),
         level: 3,
       };
 
@@ -30,13 +28,13 @@ const useMap = (lat: number | string, lng: number | string) => {
 
   useEffect(() => {
     const resizeEvent = () => {
-      map?.setCenter(new kakao.maps.LatLng(lat as number, lng as number));
+      map?.setCenter(new kakao.maps.LatLng(latitude, longitude));
     };
     if (map && storeData?.length === 1) {
       window.addEventListener("resize", () => resizeEvent());
     }
     return window.removeEventListener("resize", resizeEvent);
-  }, [map, storeData, lat, lng]);
+  }, [map, storeData, latitude, longitude]);
 
   useEffect(() => {
     if (map && storeData) {

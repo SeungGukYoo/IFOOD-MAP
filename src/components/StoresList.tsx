@@ -3,7 +3,6 @@
 import useStoresList from "@/hooks/useStoresList";
 import React from "react";
 import { IoMdArrowDropup } from "react-icons/io";
-
 import ErrorBox from "./ErrorBox";
 import LoadingCard from "./LoadingCard";
 import LoadingPing from "./LoadingPing";
@@ -20,8 +19,6 @@ const StoresList = () => {
     isError,
     observeTarget,
     moveTopPage,
-    setDistrict,
-    onChangeStoreName,
   } = useStoresList();
 
   if (isError) {
@@ -29,7 +26,7 @@ const StoresList = () => {
   }
   return (
     <div className="max-w-[1024px] mx-auto px-4  relative z-10" ref={topPos}>
-      <StoresSearchBox setDistrict={setDistrict} onChangeStoreName={onChangeStoreName} />
+      <StoresSearchBox />
 
       {isLoading && <LoadingCard />}
       {isSuccess && (

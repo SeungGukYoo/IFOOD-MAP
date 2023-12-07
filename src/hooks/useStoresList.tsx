@@ -1,18 +1,17 @@
 "use client";
 
 import getStoresPageData from "@/app/lib/getStorePageData";
-import debounceHandler from "@/util/debounceHandler";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import useSearchStore from "./useSearchStore";
 
 const useStoresList = () => {
-  const observeTarget = useRef<null | HTMLDivElement>(null);
   const topPos = useRef<HTMLDivElement | null>(null);
-  const [district, setDistrict] = useState<string>("");
-  const [storeName, setStoreName] = useState<string>("");
+  const observeTarget = useRef<null | HTMLDivElement>(null);
+  const { name, district } = useSearchStore();
   const { data, isLoading, isFetching, isSuccess, isError, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["stores", district, storeName],
-    queryFn: ({ pageParam }) => getStoresPageData(pageParam, district, storeName),
+    queryKey: ["stores", district, name],
+    queryFn: ({ pageParam }) => getStoresPageData(pageParam, district, name),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       return lastPage.data.length > 0 ? lastPage.page + 1 : undefined;
@@ -24,11 +23,6 @@ const useStoresList = () => {
     topPos.current?.scrollIntoView({
       behavior: "smooth",
     });
-  };
-
-  const onChangeStoreName = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    debounceHandler(setStoreName, value);
   };
 
   useEffect(() => {
@@ -58,8 +52,6 @@ const useStoresList = () => {
     topPos,
     fetchNextPage,
     moveTopPage,
-    setDistrict,
-    onChangeStoreName,
   };
 };
 

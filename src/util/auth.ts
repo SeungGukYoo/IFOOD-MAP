@@ -1,14 +1,13 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
+
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
 import { NextAuthOptions, getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from 'next-auth/providers/kakao';
 import NaverProvider from 'next-auth/providers/naver';
+import prisma from "./prismaClient";
 
 
-
-const prisma = new PrismaClient()
 export const config = {
   adapter: PrismaAdapter(prisma),
   providers: [

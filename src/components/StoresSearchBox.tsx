@@ -1,20 +1,20 @@
 "use client";
 
 import { DISTRICT } from "@/data/district";
+import useSearchStore from "@/hooks/useSearchStore";
+import debounceHandler from "@/util/debounceHandler";
 import React from "react";
 import { IoSearch } from "react-icons/io5";
-interface PropsType {
-  setDistrict: React.Dispatch<React.SetStateAction<string>>;
-  onChangeStoreName: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
 
-const StoresSearchBox = ({ setDistrict, onChangeStoreName }: PropsType) => {
+const StoresSearchBox = () => {
+  const { changeName, changeDistrict } = useSearchStore();
+
   return (
     <div className="w-full flex justify-between gap-3 py-8">
       <div role="presentation" className="relative w-full h-[45px]">
         <input
           name="storeSearchInput"
-          onChange={onChangeStoreName}
+          onChange={(e) => debounceHandler(changeName, e)}
           type="text"
           className="w-full h-full border bg-zinc-100 rounded outline-none pl-12"
           placeholder="검색"
@@ -25,7 +25,7 @@ const StoresSearchBox = ({ setDistrict, onChangeStoreName }: PropsType) => {
         name="district"
         id="district"
         className="border text-sm p-3 outline-none md:w-[250px]"
-        onChange={(e) => setDistrict(e.target.value)}
+        onChange={(e) => changeDistrict(e.target.value)}
       >
         <option value="">지역 선택</option>
         {DISTRICT.map((area) => (
