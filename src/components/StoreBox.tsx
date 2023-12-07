@@ -1,25 +1,23 @@
 "use client";
 
+import { StoreType } from "@/app/page";
+import useStoreBox from "@/hooks/useStoreBox";
+import imageHandler from "@/util/markerHandler";
+import Image from "next/image";
+import React from "react";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa6";
 import { FcLike } from "react-icons/fc";
-
 import { IoCloseSharp, IoInformationCircle } from "react-icons/io5";
 import { MdLocationPin } from "react-icons/md";
-
-import { StoreType } from "@/app/page";
-import imageHandler from "@/util/markerHandler";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useState } from "react";
 
 interface StoreProps {
   store: StoreType;
   setCurrentSotre: React.Dispatch<React.SetStateAction<StoreType | null>>;
 }
 const StoreBox = ({ store, setCurrentSotre }: StoreProps) => {
-  const [like, setLike] = useState(false);
+  const { like, setLike, moveDetailPage } = useStoreBox(store);
   return (
     <div className="z-10 fixed transition ease-in-out delay-150 inset-x-0 mx-auto bottom-20 rounded-lg shadow-lg max-w-sm md:max-w-2xl w-full bg-white animate-[popUp_0.1s_ease-in]">
       <div className="p-8 flex flex-col items-start gap-3 relative">
@@ -60,13 +58,12 @@ const StoreBox = ({ store, setCurrentSotre }: StoreProps) => {
           </button>
         </div>
       </div>
-      <Link
-        href={`/stores/${store.id}`}
-        scroll={false}
-        className="transition block duration-75 bg-blue-500 text-center text-white text-md font-bold py-3 rounded-t-sm rounded-b-lg focus:bg-blue-700 hover:bg-blue-700"
+      <button
+        onClick={moveDetailPage}
+        className="transition block w-full duration-75 bg-blue-500 text-center text-white text-md font-bold py-3 rounded-t-sm rounded-b-lg focus:bg-blue-700 hover:bg-blue-700"
       >
         상세보기
-      </Link>
+      </button>
     </div>
   );
 };
