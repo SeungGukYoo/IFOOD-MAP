@@ -1,9 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/util/prismaClient";
 import { NextResponse } from "next/dist/server/web/spec-extension/response";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const prisma = new PrismaClient();
   if (req.nextUrl.searchParams.get("page")) {
     const districtQuery = req.nextUrl.searchParams.get("district");
     const storeQuery = req.nextUrl.searchParams.get("store");
