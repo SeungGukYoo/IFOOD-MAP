@@ -8,13 +8,10 @@ import StoreBox from "./StoreBox";
 export type PosType = string | number | undefined;
 interface MapProps {
   store: StoresType;
-  lat: PosType;
-  lng: PosType;
 }
-const DEFAULT_LAT = 37.497625203;
-const DEFAULT_LNG = 127.03088379;
-const Map = ({ store, lat = DEFAULT_LAT, lng = DEFAULT_LNG }: MapProps) => {
-  const { currentSotre, setStoreData, loadKakaoMap, setCurrentSotre } = useMap(lat, lng);
+
+const Map = ({ store }: MapProps) => {
+  const { currentSotre, setStoreData, loadKakaoMap, setCurrentSotre } = useMap();
   let path = usePathname();
   useEffect(() => {
     if (store) {
