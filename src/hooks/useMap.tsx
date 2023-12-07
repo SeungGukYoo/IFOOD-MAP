@@ -2,11 +2,11 @@
 
 import { StoreType, StoresType } from "@/app/page";
 import markerHandler from "@/util/markerHandler";
-import React, { useEffect, useState } from "react";
-import useLocation from "./useLocation";
+import { useEffect, useState } from "react";
+import useLocationStore from "./useLocationStore";
 
 const useMap = () => {
-  const { latitude, longitude } = useLocation();
+  const { latitude, longitude } = useLocationStore();
   const [map, setMap] = useState<null | kakao.maps.Map>(null);
   const [storeData, setStoreData] = useState<null | StoresType>(null);
   const [currentSotre, setCurrentSotre] = useState<StoreType | null>(null);

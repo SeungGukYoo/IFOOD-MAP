@@ -1,9 +1,8 @@
 "use client";
 
 import { getStoreData } from "@/app/lib/getStoreData";
-import useLocation from "@/hooks/useLocation";
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+import React from "react";
 import ErrorBox from "./ErrorBox";
 import Map from "./Map";
 

@@ -7,7 +7,7 @@ interface Store {
 interface Action {
   changeCoordinates: (lat: number, lon: number) => void;
 }
-const useLocation = create<Store & Action>()((set) => ({
+const useLocationStore = create<Store & Action>()((set) => ({
   latitude: 37.497625203,
   longitude: 127.03088379,
   changeCoordinates: (lat, lon) =>
@@ -16,4 +16,5 @@ const useLocation = create<Store & Action>()((set) => ({
       longitude: lon,
     }),
 }));
-export default useLocation;
+
+export default useLocationStore;
