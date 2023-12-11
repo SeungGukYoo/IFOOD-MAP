@@ -1,21 +1,44 @@
+"use client";
 import { CATEGORY, FOOD_CERTIFY_ARR, STORE_TYPE } from "@/data/defaultFormData";
-import React from "react";
+import React, { useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+type Inputs = {
+  name: string;
+  category: string;
+  phone: string;
+  address: string;
+  certify: string;
+  store_type: string;
+};
 
 const NewPage = () => {
+  const {
+    register,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    console.log(data);
+  };
   return (
     <div className="max-w-[1024px] mx-auto mt-5">
-      <form className="px-4">
+      <form className="px-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-base font-semibold leading-7 text-gray-900">맛집 등록</h2>
             <p className="mt-1 text-sm leading-6 text-gray-600">나만의 맛집을 새롭게 등록하세요</p>
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3">
-                <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="name-1" className="block text-sm font-medium leading-6 text-gray-900">
                   가게명
                 </label>
                 <div className="mt-2">
-                  <input type="text" name="name" id="name" autoComplete="given-name" className="form_box" />
+                  <input type="text" className="form_box" {...register("name", { required: true })} />
+                  {errors.name?.type === "required" && (
+                    <div className="pt-2 text-xs text-red-500">필수 입력사항입니다.</div>
+                  )}
                 </div>
               </div>
 
@@ -24,13 +47,17 @@ const NewPage = () => {
                   카테고리
                 </label>
                 <div className="mt-2">
-                  <select id="category" name="category" className="form_box">
+                  <select id="category" className="form_box" {...register("category", { required: true })}>
+                    <option value="">카테고리를 선택하세요</option>
                     {CATEGORY.map((type) => (
                       <option value={type} key={type}>
                         {type}
                       </option>
                     ))}
                   </select>
+                  {errors.category?.type === "required" && (
+                    <div className="pt-2 text-xs text-red-500">필수 입력사항입니다.</div>
+                  )}
                 </div>
               </div>
 
@@ -39,7 +66,10 @@ const NewPage = () => {
                   연락처
                 </label>
                 <div className="mt-2">
-                  <input id="phone" name="phone" type="tel" className="form_box" />
+                  <input type="tel" className="form_box" {...register("phone", { required: true })} />
+                  {errors.phone?.type === "required" && (
+                    <div className="pt-2 text-xs text-red-500">필수 입력사항입니다.</div>
+                  )}
                 </div>
               </div>
 
@@ -48,7 +78,10 @@ const NewPage = () => {
                   주소
                 </label>
                 <div className="mt-2">
-                  <input type="text" name="address" id="address" className="form_box" />
+                  <input type="text" className="form_box" {...register("address", { required: true })} />
+                  {errors.address?.type === "required" && (
+                    <div className="pt-2 text-xs text-red-500">필수 입력사항입니다.</div>
+                  )}
                 </div>
               </div>
 
@@ -57,13 +90,17 @@ const NewPage = () => {
                   업종
                 </label>
                 <div className="mt-2">
-                  <select name="certify" id="certify" className="form_box">
+                  <select className="form_box" {...register("certify", { required: true })}>
+                    <option value="">업종을 선택하세요.</option>
                     {FOOD_CERTIFY_ARR.map((certify) => (
                       <option value={certify} key={certify}>
                         {certify}
                       </option>
                     ))}
                   </select>
+                  {errors.certify?.type === "required" && (
+                    <div className="pt-2 text-xs text-red-500">필수 입력사항입니다.</div>
+                  )}
                 </div>
               </div>
 
@@ -72,13 +109,17 @@ const NewPage = () => {
                   식품인증구분
                 </label>
                 <div className="mt-2">
-                  <select name="store_type" id="store_type" className="form_box">
+                  <select className="form_box" {...register("store_type", { required: true })}>
+                    <option value="">업종을 선택하세요</option>
                     {STORE_TYPE.map((type) => (
                       <option key={type} value={type}>
                         {type}
                       </option>
                     ))}
                   </select>
+                  {errors.store_type?.type === "required" && (
+                    <div className="pt-2 text-xs text-red-500">필수 입력사항입니다.</div>
+                  )}
                 </div>
               </div>
             </div>
