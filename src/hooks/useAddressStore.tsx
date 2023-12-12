@@ -1,21 +1,16 @@
 import { create } from "zustand";
 
 interface Store {
-  roadAddress: string;
-  postAddress: string;
+  address: string;
 }
 
 interface Action {
-  changeAddress: (roadValue: string, postValue: string) => void;
+  changeAddress: (value: string) => void;
 }
 
 const useAddress = create<Store & Action>()((set) => ({
-  roadAddress: "",
-  postAddress: "",
-  changeAddress: (roadValue: string, postValue: string) => {
-    set({ postAddress: postValue });
-    set({ roadAddress: roadValue });
-  },
+  address: "",
+  changeAddress: (value: string) => set({ address: value }),
 }));
 
 export default useAddress;

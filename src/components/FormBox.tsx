@@ -7,7 +7,7 @@ import React from "react";
 
 const FormBox = () => {
   const { register, handleSubmit, errors, onSubmit } = useAddStore();
-  const { postAddress, roadAddress } = useAddress();
+  const { address } = useAddress();
   const { handleClick } = usePostcode();
 
   return (
@@ -77,21 +77,14 @@ const FormBox = () => {
                     readOnly
                     type="text"
                     className="form_box mb-3"
-                    value={roadAddress}
+                    value={address}
                     onClick={handleClick}
-                    {...register("roadAddress", { required: true })}
+                    {...register("address", { required: true })}
                   />
-                  <input
-                    readOnly
-                    type="text"
-                    className="form_box"
-                    value={postAddress}
-                    onClick={handleClick}
-                    {...register("postAddress", { required: true })}
-                  />
-                  {/* {errors.roadAddress?.type === "required" && (
+
+                  {errors.address?.type === "required" && (
                     <div className="pt-2 text-xs text-red-500">필수 입력사항입니다.</div>
-                  )} */}
+                  )}
                 </div>
               </div>
 
@@ -153,3 +146,6 @@ const FormBox = () => {
 };
 
 export default FormBox;
+
+
+// form.tsx button(onClick) => usePostCode.ts setStore(zustand:address)=> useaddStore.tsx setValue('address',value:address ) => update

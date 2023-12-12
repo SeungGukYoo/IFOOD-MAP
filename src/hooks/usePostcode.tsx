@@ -5,18 +5,20 @@ const usePostcode = () => {
   const open = useDaumPostcodePopup();
   const { changeAddress } = useAddress();
   const handleComplete = (data: Address) => {
-    let postAddress = data.jibunAddress || data.address;
-    let roadAddress: string = data.address;
+    let fullAddress = data.address;
+    let extraAddress: string = data.address;
 
     if (data.addressType === "R") {
       if (data.bname !== "") {
-        roadAddress += data.bname;
+        extraAddress += data.bname;
       }
       if (data.buildingName !== "") {
-        roadAddress += roadAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+        extraAddress += extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
-    changeAddress(postAddress, roadAddress);
+
+    changeAddress(fullAddress);
   };
 
   const handleClick = () => {
