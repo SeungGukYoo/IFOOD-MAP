@@ -1,18 +1,32 @@
 "use client";
+import { StoreType } from "@/app/page";
 import { CATEGORY, FOOD_CERTIFY_ARR, STORE_TYPE } from "@/data/defaultFormData";
 import useAddStore from "@/hooks/useAddStore";
 import useAddress from "@/hooks/useAddressStore";
 import usePostcode from "@/hooks/usePostcode";
-import React from "react";
+import React, { useEffect } from "react";
 
-const FormBox = () => {
-  const { register, handleSubmit, errors, onSubmit } = useAddStore();
+const FormBox = ({ storeData }: { storeData?: StoreType }) => {
+  const { register, handleSubmit, errors, setValue, submitForm, setId } = useAddStore();
   const { address } = useAddress();
   const { handleClick } = usePostcode();
 
+  console.log(address, "formBox local");
+  useEffect(() => {
+    if (storeData) {
+      setId(storeData.id!);
+      setValue("address", storeData.address || "");
+      setValue("category", storeData.category || "");
+      setValue("foodCertifyName", storeData.foodCertifyName || "");
+      setValue("phone", storeData.phone || "");
+      setValue("storeType", storeData.storeType || "");
+      setValue("name", storeData.name || "");
+    }
+  }, [storeData, setValue, setId]);
+
   return (
     <div className="max-w-[1024px] mx-auto mt-5">
-      <form className="px-4" onSubmit={handleSubmit(onSubmit)}>
+      <form className="px-4" onSubmit={handleSubmit(submitForm)}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-base font-semibold leading-7 text-gray-900">맛집 등록</h2>
@@ -146,6 +160,3 @@ const FormBox = () => {
 };
 
 export default FormBox;
-
-
-// form.tsx button(onClick) => usePostCode.ts setStore(zustand:address)=> useaddStore.tsx setValue('address',value:address ) => update
