@@ -1,17 +1,27 @@
 import { StoreType } from "../page";
 
-export async function setStoreData(data: Omit<StoreType, "id">): Promise<void | StoreType> {
+export async function setStoreData(data: StoreType): Promise<void | StoreType> {
   try {
-    const response = await fetch("/api/store", {
-      method: "POST",
-      body: JSON.stringify({
-        data,
-      }),
-    });
-    if (!response.ok) {
-      throw new Error("예기치못한 에러가 발생했습니다. ('/api/store')");
+    if (data?.id) {
+      const response = await fetch("/api/store", {
+        method: "PATCH",
+        body: JSON.stringify({
+          data,
+        }),
+      });
+      return response.json();
+    } else {
+      const response = await fetch("/api/store", {
+        method: "POST",
+        body: JSON.stringify({
+          data,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("예기치못한 에러가 발생했습니다. ('/api/store',POST)");
+      }
+      return response.json();
     }
-    return response.json();
   } catch (err) {
     console.error(err);
   }
