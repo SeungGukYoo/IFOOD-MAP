@@ -1,6 +1,7 @@
 import { setStoreData } from "@/app/lib/setStoreData";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { StoreType } from "@/app/page";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useAddress from "./useAddressStore";
 import useKakaoClientStore from "./useKakaoClientStore";
@@ -65,24 +66,49 @@ const useAddStore = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const router = useRouter();
+  const path = usePathname();
+  const [id, setId] = useState(-1);
   const { address, changeAddress } = useAddress();
-  const { kakaoClient } = useKakaoClientStore();
-  const { changeCoordinates } = useLocationStore();
+  const { latitude, longitude } = useLocationStore();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      const locationResult = await kakaoClient.locationSearch(data.address);
-      const { x, y } = locationResult;
       const includeLocationData = {
         ...data,
-        lat: y,
-        lng: x,
+        lat: latitude.toString(),
+        lng: longitude.toString(),
       };
       const response = await setStoreData(includeLocationData);
-      changeCoordinates(parseFloat(y), parseFloat(x));
-      changeAddress("");
-      router.replace(`/stores/${response?.id}`);
+      return response;
     } catch (error) {
       console.error(error);
+    }
+  };
+  const onUpdate: SubmitHandler<Inputs> = async (data) => {
+    try {
+      const updateFormData = {
+        ...data,
+        id,
+        lat: latitude.toString(),
+        lng: longitude.toString(),
+      };
+      const response = await setStoreData(updateFormData);
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const submitForm: SubmitHandler<Inputs> = async (data) => {
+    try {
+      let response: StoreType;
+      if (path === "/stores/new") {
+        response = (await onSubmit(data)) as StoreType;
+      } else {
+        response = (await onUpdate(data)) as StoreType;
+      }
+      changeAddress("");
+      router.replace(`/stores/${response?.id}`);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -96,7 +122,9 @@ const useAddStore = () => {
     register,
     handleSubmit,
     errors,
-    onSubmit,
+    submitForm,
+    setValue,
+    setId,
   };
 };
 
