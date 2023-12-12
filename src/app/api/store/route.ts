@@ -1,3 +1,4 @@
+import prisma from "@/util/prismaClient";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -6,11 +7,20 @@ export async function GET(req: NextRequest) {
   if (!id) {
     return NextResponse.error();
   }
-  const prisma = new PrismaClient();
   const data = await prisma.store.findUnique({
     where: {
       id: parseInt(id),
     },
   });
   return NextResponse.json(data, { status: 200 });
+}
+
+export async function POST(req: Request) {
+  const { data } = await req.json();
+  const store = await prisma.store.create({
+    data,
+  });
+  console.log(store);
+
+  return NextResponse.json(store, { status: 201 });
 }

@@ -1,7 +1,14 @@
+"use client";
+import FormBox from "@/components/FormBox";
+
 import React from "react";
 
 const NewPage = () => {
-  return <div>newpage</div>;
+  return (
+    <>
+      <FormBox />
+    </>
+  );
 };
 
 export default NewPage;
