@@ -2,6 +2,7 @@
 
 import { getStoreData } from "@/app/lib/getStoreData";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import React from "react";
 import ErrorBox from "./ErrorBox";
 import Map from "./Map";
@@ -12,15 +13,23 @@ const StoreDatailBox = ({ params }: { params: string }) => {
     queryFn: () => getStoreData(params),
     staleTime: 60 * 1000 * 5,
   });
-
   if (isError) {
     return <ErrorBox />;
   }
   return (
     <div className="max-w-[1024px] mx-auto py-10">
       <div className="px-4">
-        <h1 className="text-base font-semibold leading-3 text-gray-900 md:text-lg md:leading-[1]">상세보기</h1>
-        <p className="mt-1 text-sm leading-6 text-gray-500">식당에 대해 자세히 알아보세요.</p>
+        <div className="w-full flex items-center justify-between">
+          <div>
+            <h1 className="text-base font-semibold leading-3 text-gray-900 md:text-lg md:leading-[1]">상세보기</h1>
+            <p className="mt-1 text-sm leading-6 text-gray-500">식당에 대해 자세히 알아보세요.</p>
+          </div>
+          <div>
+            <Link href={`/stores/${params}/edit`}>수정</Link>
+
+            <button>삭제</button>
+          </div>
+        </div>
       </div>
       {isSuccess && (
         <div className="border-t border-gray-100 mt-6">
