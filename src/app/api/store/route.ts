@@ -1,5 +1,6 @@
+import { StoreType } from "@/app/page";
 import prisma from "@/util/prismaClient";
-import { PrismaClient } from "@prisma/client";
+
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -23,4 +24,15 @@ export async function POST(req: Request) {
   console.log(store);
 
   return NextResponse.json(store, { status: 201 });
+}
+export async function PATCH(req: Request) {
+  const { data }: { data: StoreType } = await req.json();
+  console.log(data);
+  const store = await prisma.store.update({
+    where: {
+      id: data.id,
+    },
+    data: data,
+  });
+  return NextResponse.json(store, { status: 204 });
 }
