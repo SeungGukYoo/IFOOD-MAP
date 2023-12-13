@@ -8,7 +8,7 @@ import useMapSetting from "./useMapSetting";
 const useMap = () => {
   const [map, setMap] = useState<kakao.maps.Map>();
   const [storeData, setStoreData] = useState<StoresType>();
-  const [currentSotre, setCurrentSotre] = useState<StoreType>();
+  const [currentSotre, setCurrentSotre] = useState<StoreType | null>(null);
   const { latitude, longitude, changeCoordinates, getCoordinates } = useLocationStore();
   const { settingMapAndOverlay } = useMapSetting(map);
 
