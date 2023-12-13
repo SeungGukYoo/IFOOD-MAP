@@ -31,5 +31,5 @@ export async function PATCH(req: Request) {
     },
     data: data,
   });
-  return NextResponse.json(store, { status: 204 });
+  return NextResponse.json(store, { status: 201 });
 }
