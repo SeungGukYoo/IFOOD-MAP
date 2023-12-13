@@ -1,15 +1,16 @@
 "use client";
 
 import { StoreType, StoresType } from "@/app/page";
-import markerHandler from "@/util/markerHandler";
 import { useEffect, useState } from "react";
 import useLocationStore from "./useLocationStore";
+import useMapSetting from "./useMapSetting";
 
 const useMap = () => {
+  const [map, setMap] = useState<kakao.maps.Map>();
+  const [storeData, setStoreData] = useState<StoresType>();
+  const [currentSotre, setCurrentSotre] = useState<StoreType>();
   const { latitude, longitude, changeCoordinates, getCoordinates } = useLocationStore();
-  const [map, setMap] = useState<null | kakao.maps.Map>(null);
-  const [storeData, setStoreData] = useState<null | StoresType>(null);
-  const [currentSotre, setCurrentSotre] = useState<StoreType | null>(null);
+  const { settingMapAndOverlay } = useMapSetting(map);
 
   const loadKakaoMap = (data: StoreType[]) => {
     if (data.length === 1) {
@@ -43,40 +44,22 @@ const useMap = () => {
   useEffect(() => {
     if (map && storeData) {
       storeData.forEach((store) => {
-        let { lat, lng } = store;
-        let imageSrc = "/images/markers/" + markerHandler(store?.category);
-        let imgMarker = new kakao.maps.MarkerImage(imageSrc, new kakao.maps.Size(40, 40), {
-          offset: new kakao.maps.Point(27, 69),
-          alt: "마커 이미지",
-        });
-        let markerPos = new kakao.maps.LatLng(Number(lat), Number(lng));
-        let marker = new kakao.maps.Marker({
-          position: markerPos,
-          image: imgMarker,
-        });
-        marker.setMap(map);
-        let infoContent = `<div class="infoWindow">${store?.name}</div>`;
-        let customOverlay = new kakao.maps.CustomOverlay({
-          position: markerPos,
-          content: infoContent,
-          xAnchor: 0.6,
-          yAnchor: 0.91,
-        });
+        const { marker, customOverlayObject } = settingMapAndOverlay(store)!;
         kakao.maps.event.addListener(marker, "mouseover", () => {
-          customOverlay.setMap(map);
+          customOverlayObject.setMap(map);
         });
         kakao.maps.event.addListener(marker, "mouseout", () => {
-          customOverlay.setMap(null);
+          customOverlayObject.setMap(null);
         });
         kakao.maps.event.addListener(marker, "click", () => {
           if (storeData.length !== 1) {
-            customOverlay.setMap(map);
+            customOverlayObject.setMap(map);
             setCurrentSotre(store);
           }
         });
       });
     }
-  }, [map, storeData]);
+  }, [map, settingMapAndOverlay, storeData]);
   return {
     currentSotre,
     setStoreData,
