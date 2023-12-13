@@ -6,18 +6,22 @@ import { useEffect, useState } from "react";
 import useLocationStore from "./useLocationStore";
 
 const useMap = () => {
-  const { latitude, longitude } = useLocationStore();
+  const { latitude, longitude, changeCoordinates, getCoordinates } = useLocationStore();
   const [map, setMap] = useState<null | kakao.maps.Map>(null);
   const [storeData, setStoreData] = useState<null | StoresType>(null);
   const [currentSotre, setCurrentSotre] = useState<StoreType | null>(null);
 
-  const loadKakaoMap = () => {
+  const loadKakaoMap = (data: StoreType[]) => {
+    if (data.length === 1) {
+      const { lat, lng } = data[0];
+      changeCoordinates(parseFloat(lat!), parseFloat(lng!));
+    }
     kakao.maps.load(() => {
       const { kakao } = window;
       const mapContainer = document.getElementById("map") as HTMLElement;
 
       const mapOption = {
-        center: new kakao.maps.LatLng(latitude, longitude),
+        center: new kakao.maps.LatLng(getCoordinates()[0], getCoordinates()[1]),
         level: 3,
       };
 
@@ -33,7 +37,7 @@ const useMap = () => {
     if (map && storeData?.length === 1) {
       window.addEventListener("resize", () => resizeEvent());
     }
-    return window.removeEventListener("resize", resizeEvent);
+    return () => window.removeEventListener("resize", resizeEvent);
   }, [map, storeData, latitude, longitude]);
 
   useEffect(() => {
