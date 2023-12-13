@@ -1,6 +1,7 @@
 "use client";
 
 import { getStoreData } from "@/app/lib/getStoreData";
+
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import React from "react";
@@ -8,11 +9,12 @@ import ErrorBox from "./ErrorBox";
 import Map from "./Map";
 
 const StoreDatailBox = ({ params }: { params: string }) => {
-  const { data, isLoading, isError, isSuccess } = useQuery({
+  const { data, isError, isSuccess } = useQuery({
     queryKey: ["store", params],
     queryFn: () => getStoreData(params),
     staleTime: 60 * 1000 * 5,
   });
+
   if (isError) {
     return <ErrorBox />;
   }

@@ -11,7 +11,6 @@ const FormBox = ({ storeData }: { storeData?: StoreType }) => {
   const { address } = useAddress();
   const { handleClick } = usePostcode();
 
-  console.log(address, "formBox local");
   useEffect(() => {
     if (storeData) {
       setId(storeData.id!);
