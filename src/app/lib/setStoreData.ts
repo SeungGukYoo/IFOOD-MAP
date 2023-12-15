@@ -2,7 +2,7 @@ import { StoreType } from "../page";
 
 export async function setStoreData(data: StoreType): Promise<void | StoreType> {
   try {
-    if (data?.id) {
+    if (data.id) {
       const response = await fetch("/api/store", {
         method: "PATCH",
         body: JSON.stringify({
