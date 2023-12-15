@@ -1,27 +1,33 @@
 "use client";
 import { StoreType } from "@/app/page";
 import { CATEGORY, FOOD_CERTIFY_ARR, STORE_TYPE } from "@/data/defaultFormData";
-import useAddStore from "@/hooks/useAddStore";
-import useAddress from "@/hooks/useAddressStore";
 import usePostcode from "@/hooks/usePostcode";
+import useStoreForm from "@/hooks/useStoreForm";
+import { UseMutateFunction } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+
 import React, { useEffect } from "react";
 
-const FormBox = ({ storeData }: { storeData?: StoreType }) => {
-  const { register, handleSubmit, errors, setValue, submitForm, setId } = useAddStore();
-  const { address } = useAddress();
-  const { handleClick } = usePostcode();
+interface FormBoxProps {
+  submit: UseMutateFunction<void | StoreType, Error, StoreType, unknown>;
+  initialValue?: StoreType;
+  isEditing?: boolean;
+}
 
+const FormBox = ({ submit, initialValue, isEditing }: FormBoxProps) => {
+  const { register, handleSubmit, submitForm, errors, setValue } = useStoreForm(submit);
+  const { handleClick } = usePostcode();
+  
   useEffect(() => {
-    if (storeData) {
-      setId(storeData.id!);
-      setValue("address", storeData.address || "");
-      setValue("category", storeData.category || "");
-      setValue("foodCertifyName", storeData.foodCertifyName || "");
-      setValue("phone", storeData.phone || "");
-      setValue("storeType", storeData.storeType || "");
-      setValue("name", storeData.name || "");
+    if (initialValue) {
+      setValue("address", initialValue.address || "");
+      setValue("category", initialValue.category || "");
+      setValue("foodCertifyName", initialValue.foodCertifyName || "");
+      setValue("name", initialValue.name || "");
+      setValue("phone", initialValue.phone || "");
+      setValue("storeType", initialValue.storeType || "");
     }
-  }, [storeData, setValue, setId]);
+  }, [initialValue, setValue]);
 
   return (
     <div className="max-w-[1024px] mx-auto mt-5">
@@ -78,23 +84,22 @@ const FormBox = ({ storeData }: { storeData?: StoreType }) => {
                 <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
                   주소
                 </label>
-                <button
-                  type="button"
-                  onClick={handleClick}
-                  className=" mt-2 rounded-md bg-indigo-600 px-3 py-2 text-[10px] font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  주소 찾기
-                </button>
+
                 <div className="mt-2">
                   <input
                     readOnly
                     type="text"
                     className="form_box mb-3"
-                    value={address}
                     onClick={handleClick}
                     {...register("address", { required: true })}
                   />
-
+                  <button
+                    type="button"
+                    onClick={handleClick}
+                    className="mt-2 rounded-md bg-indigo-600 px-3 py-2 text-[10px] font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    주소 찾기
+                  </button>
                   {errors.address?.type === "required" && (
                     <div className="pt-2 text-xs text-red-500">필수 입력사항입니다.</div>
                   )}
@@ -150,7 +155,7 @@ const FormBox = ({ storeData }: { storeData?: StoreType }) => {
             type="submit"
             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Save
+            {isEditing ? "Update" : "Save"}
           </button>
         </div>
       </form>
