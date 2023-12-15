@@ -1,26 +1,18 @@
 "use client";
 
-import { getStoreData } from "@/app/lib/getStoreData";
-
-import { useQuery } from "@tanstack/react-query";
+import { StoreType } from "@/app/page";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import React from "react";
-import ErrorBox from "./ErrorBox";
+
 import Map from "./Map";
 
-const StoreDatailBox = ({ params }: { params: string }) => {
-  const { data, isError, isSuccess } = useQuery({
-    queryKey: ["store", params],
-    queryFn: () => getStoreData(params),
-    staleTime: 60 * 1000 * 5,
-  });
+const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
+  const { slug: params } = useParams();
 
-  if (isError) {
-    return <ErrorBox />;
-  }
   return (
-    <div className="max-w-[1024px] mx-auto py-10">
-      {isSuccess && (
+    <>
+      <div className="max-w-[1024px] mx-auto py-10">
         <>
           <div className="px-4">
             <div className="w-full flex items-center justify-between">
@@ -72,8 +64,8 @@ const StoreDatailBox = ({ params }: { params: string }) => {
             </dl>
           </div>
         </>
-      )}
-    </div>
+      </div>
+    </>
   );
 };
 
