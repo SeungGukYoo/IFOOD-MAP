@@ -5,11 +5,12 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
 
+import useDeleteStore from "@/hooks/useDeleteStore";
 import Map from "./Map";
 
 const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
   const { slug: params } = useParams();
-
+  const { mutate } = useDeleteStore(params);
   return (
     <>
       <div className="max-w-[1024px] mx-auto py-10">
@@ -23,7 +24,7 @@ const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
               <div>
                 <Link href={`/stores/${params}/edit`}>수정</Link>
 
-                <button>삭제</button>
+                <button onClick={() => mutate()}>삭제</button>
               </div>
             </div>
           </div>
