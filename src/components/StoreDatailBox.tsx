@@ -21,10 +21,20 @@ const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
                 <h1 className="text-base font-semibold leading-3 text-gray-900 md:text-lg md:leading-[1]">상세보기</h1>
                 <p className="mt-1 text-sm leading-6 text-gray-500">식당에 대해 자세히 알아보세요.</p>
               </div>
-              <div>
-                <Link href={`/stores/${params}/edit`}>수정</Link>
+              <div className="flex gap-3">
+                <Link
+                  className="text-gray-300 font-medium focus:text-black hover:text-black"
+                  href={`/stores/${params}/edit`}
+                >
+                  수정
+                </Link>
 
-                <button onClick={() => mutate()}>삭제</button>
+                <button
+                  className="text-gray-300 font-medium focus:text-black hover:text-black"
+                  onClick={() => mutate()}
+                >
+                  삭제
+                </button>
               </div>
             </div>
           </div>
