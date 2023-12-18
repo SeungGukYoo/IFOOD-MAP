@@ -1,23 +1,28 @@
 "use client";
 
 import { StoreType, StoresType } from "@/app/page";
-import markerHandler from "@/util/markerHandler";
 import { useEffect, useState } from "react";
 import useLocationStore from "./useLocationStore";
+import useMapSetting from "./useMapSetting";
 
 const useMap = () => {
-  const { latitude, longitude } = useLocationStore();
-  const [map, setMap] = useState<null | kakao.maps.Map>(null);
-  const [storeData, setStoreData] = useState<null | StoresType>(null);
+  const [map, setMap] = useState<kakao.maps.Map>();
+  const [storeData, setStoreData] = useState<StoresType>();
   const [currentSotre, setCurrentSotre] = useState<StoreType | null>(null);
+  const { latitude, longitude, changeCoordinates, getCoordinates } = useLocationStore();
+  const { settingMapAndOverlay } = useMapSetting(map);
 
-  const loadKakaoMap = () => {
+  const loadKakaoMap = (data: StoreType[]) => {
+    if (data.length === 1) {
+      const { lat, lng } = data[0];
+      changeCoordinates(parseFloat(lat!), parseFloat(lng!));
+    }
     kakao.maps.load(() => {
       const { kakao } = window;
       const mapContainer = document.getElementById("map") as HTMLElement;
 
       const mapOption = {
-        center: new kakao.maps.LatLng(latitude, longitude),
+        center: new kakao.maps.LatLng(getCoordinates()[0], getCoordinates()[1]),
         level: 3,
       };
 
@@ -33,46 +38,28 @@ const useMap = () => {
     if (map && storeData?.length === 1) {
       window.addEventListener("resize", () => resizeEvent());
     }
-    return window.removeEventListener("resize", resizeEvent);
+    return () => window.removeEventListener("resize", resizeEvent);
   }, [map, storeData, latitude, longitude]);
 
   useEffect(() => {
     if (map && storeData) {
       storeData.forEach((store) => {
-        let { lat, lng } = store;
-        let imageSrc = "/images/markers/" + markerHandler(store?.category);
-        let imgMarker = new kakao.maps.MarkerImage(imageSrc, new kakao.maps.Size(40, 40), {
-          offset: new kakao.maps.Point(27, 69),
-          alt: "마커 이미지",
-        });
-        let markerPos = new kakao.maps.LatLng(Number(lat), Number(lng));
-        let marker = new kakao.maps.Marker({
-          position: markerPos,
-          image: imgMarker,
-        });
-        marker.setMap(map);
-        let infoContent = `<div class="infoWindow">${store?.name}</div>`;
-        let customOverlay = new kakao.maps.CustomOverlay({
-          position: markerPos,
-          content: infoContent,
-          xAnchor: 0.6,
-          yAnchor: 0.91,
-        });
+        const { marker, customOverlayObject } = settingMapAndOverlay(store)!;
         kakao.maps.event.addListener(marker, "mouseover", () => {
-          customOverlay.setMap(map);
+          customOverlayObject.setMap(map);
         });
         kakao.maps.event.addListener(marker, "mouseout", () => {
-          customOverlay.setMap(null);
+          customOverlayObject.setMap(null);
         });
         kakao.maps.event.addListener(marker, "click", () => {
           if (storeData.length !== 1) {
-            customOverlay.setMap(map);
+            customOverlayObject.setMap(map);
             setCurrentSotre(store);
           }
         });
       });
     }
-  }, [map, storeData]);
+  }, [map, settingMapAndOverlay, storeData]);
   return {
     currentSotre,
     setStoreData,

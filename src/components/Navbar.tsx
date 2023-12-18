@@ -8,15 +8,13 @@ import { BiMenu } from "react-icons/bi";
 import LoadingSpiner from "./LoadingSpiner";
 
 const Navbar = () => {
-  const { session, isOpen, setIsOpen } = useNavigationBar();
+  const { session, isOpen, setIsOpen, moveHomepage } = useNavigationBar();
 
   return (
     <>
       <div className="flex justify-between items-center fixed w-full h-[52px] shadow-sm bg-white z-50">
         <div className="text-2xl lg:text-3xl cursor-pointer py-0 px-5 font-medium">
-          <Link href="/" onClick={() => isOpen && setIsOpen(false)}>
-            iFOOD
-          </Link>
+          <button onClick={moveHomepage}>iFOOD</button>
         </div>
         <div className="hidden items-center px-5 py-0 gap-3 md:flex ">
           <Link className="navigation__btn" href="/stores">

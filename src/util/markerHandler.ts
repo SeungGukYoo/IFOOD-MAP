@@ -1,4 +1,4 @@
-export default function imageHandler(type: string | null) {
+export default function imageHandler(type: string | undefined) {
   let ImagePath: string;
 
   switch (type) {

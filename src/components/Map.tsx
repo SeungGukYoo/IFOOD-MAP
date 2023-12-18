@@ -1,7 +1,7 @@
 "use client";
 import { StoresType } from "@/app/page";
 import useMap from "@/hooks/useMap";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Script from "next/script";
 import React, { useEffect } from "react";
 import StoreBox from "./StoreBox";
@@ -13,6 +13,7 @@ interface MapProps {
 const Map = ({ store }: MapProps) => {
   const { currentSotre, setStoreData, loadKakaoMap, setCurrentSotre } = useMap();
   let path = usePathname();
+
   useEffect(() => {
     if (store) {
       setStoreData(store);
@@ -26,7 +27,7 @@ const Map = ({ store }: MapProps) => {
         strategy="afterInteractive"
         type="text/javascript"
         src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_KEY}&autoload=false`}
-        onReady={loadKakaoMap}
+        onReady={() => loadKakaoMap(store)}
       />
       {currentSotre && <StoreBox store={currentSotre} setCurrentSotre={setCurrentSotre} />}
     </div>

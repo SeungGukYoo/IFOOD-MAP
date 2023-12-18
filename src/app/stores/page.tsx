@@ -1,3 +1,4 @@
+"use client";
 import StoresList from "@/components/StoresList";
 import React from "react";
 

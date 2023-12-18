@@ -1,8 +1,12 @@
 import { Address, useDaumPostcodePopup } from "react-daum-postcode";
 import useAddress from "./useAddressStore";
+import useKakaoClientStore from "./useKakaoClientStore";
+import useLocationStore from "./useLocationStore";
 
 const usePostcode = () => {
   const open = useDaumPostcodePopup();
+  const { kakaoClient } = useKakaoClientStore();
+  const { changeCoordinates } = useLocationStore();
   const { changeAddress } = useAddress();
   const handleComplete = (data: Address) => {
     let fullAddress = data.address;
@@ -17,10 +21,19 @@ const usePostcode = () => {
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
-
+    convertLocation(fullAddress);
     changeAddress(fullAddress);
   };
 
+  const convertLocation = async (address: string) => {
+    try {
+      const locationResult = await kakaoClient.locationSearch(address);
+      const { x, y } = locationResult;
+      changeCoordinates(parseFloat(y), parseFloat(x));
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const handleClick = () => {
     open({ onComplete: handleComplete });
   };

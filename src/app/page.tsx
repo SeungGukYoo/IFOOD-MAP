@@ -2,15 +2,15 @@ import Map from "@/components/Map";
 import { getStoresData } from "./lib/getStoresData";
 
 export interface StoreType {
-  id: number;
-  phone: string | null;
-  address: string | null;
-  lat: string | null;
-  lng: string | null;
-  name: string | null;
-  category: string | null;
-  storeType: string | null;
-  foodCertifyName: string | null;
+  id?: number;
+  phone?: string;
+  address?: string;
+  lat?: string;
+  lng?: string;
+  name?: string;
+  category?: string;
+  storeType?: string;
+  foodCertifyName?: string;
 }
 export type StoresType = StoreType[];
 export type StoreDataType = {
