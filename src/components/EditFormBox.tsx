@@ -20,15 +20,11 @@ const EditFormBox = ({ id }: { id: string }) => {
 
   const { mutate: handleEditForm } = useMutation({
     mutationKey: ["store", id],
-    mutationFn: async (data: StoreType) => {
-      const response = await setStoreData({ ...data, id: parseInt(id) });
-      queryClient.invalidateQueries({ queryKey: ["store", id] });
-      return response;
-    },
+    mutationFn: (data: StoreType) => setStoreData({ ...data, id: parseInt(id) }),
     onSuccess: () => {
-      changeAddress("");
+      queryClient.invalidateQueries({ queryKey: ["store", id] });
       router.replace(`/stores/${id}`);
-      router.refresh();
+      changeAddress("");
     },
   });
 
