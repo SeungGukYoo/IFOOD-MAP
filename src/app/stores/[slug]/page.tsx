@@ -7,19 +7,21 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
 const DetailPage = ({ params }: { params: { slug: string } }) => {
-  const { data, isError, isSuccess } = useQuery({
+  const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["store", params.slug],
-    queryFn: async () => {
-      const response = await getStoreData(params.slug);
-      return response;
-    },
+    queryFn: () => getStoreData(params.slug),
     staleTime: 60 * 1000 * 5,
   });
 
   if (isError) {
     return <ErrorBox />;
   }
-  return <>{isSuccess && <StoreDatailBox store={data} />}</>;
+  return (
+    <>
+      {isLoading && <h1>loading!!</h1>}
+      {isSuccess && <StoreDatailBox store={data} />}
+    </>
+  );
 };
 
 export default DetailPage;
