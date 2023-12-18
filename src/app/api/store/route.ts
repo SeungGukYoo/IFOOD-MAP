@@ -33,3 +33,17 @@ export async function PATCH(req: Request) {
   });
   return NextResponse.json(store, { status: 201 });
 }
+
+export async function DELETE(req: NextRequest) {
+  const id = req.nextUrl.searchParams.get("id");
+  if (!id) {
+    return NextResponse.error();
+  }
+  await prisma.store.delete({
+    where: {
+      id: parseInt(id),
+    },
+  });
+
+  return NextResponse.json({ ok: true }, { status: 200 });
+}
