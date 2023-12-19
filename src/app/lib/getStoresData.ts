@@ -1,6 +1,9 @@
+import { auth } from "@/util/auth";
+
 export const getStoresData = async () => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`, {
+    const authInfo = await auth();
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores?id=${authInfo?.user.access_token?.sub}`, {
       next: {
         revalidate: 3600,
       },
