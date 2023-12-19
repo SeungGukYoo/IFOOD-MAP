@@ -4,7 +4,7 @@ import { CATEGORY, FOOD_CERTIFY_ARR, STORE_TYPE } from "@/data/defaultFormData";
 import usePostcode from "@/hooks/usePostcode";
 import useStoreForm from "@/hooks/useStoreForm";
 import { UseMutateFunction } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import React, { useEffect } from "react";
 
@@ -17,7 +17,7 @@ interface FormBoxProps {
 const FormBox = ({ submit, initialValue, isEditing }: FormBoxProps) => {
   const { register, handleSubmit, submitForm, errors, setValue } = useStoreForm(submit);
   const { handleClick } = usePostcode();
-  
+  const router = useRouter();
   useEffect(() => {
     if (initialValue) {
       setValue("address", initialValue.address || "");
@@ -148,7 +148,7 @@ const FormBox = ({ submit, initialValue, isEditing }: FormBoxProps) => {
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
+          <button type="button" onClick={() => router.back()} className="text-sm font-semibold leading-6 text-gray-900">
             Cancel
           </button>
           <button
