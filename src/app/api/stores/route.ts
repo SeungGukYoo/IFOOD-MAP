@@ -1,3 +1,4 @@
+import { auth } from "@/util/auth";
 import prisma from "@/util/prismaClient";
 import { NextResponse } from "next/dist/server/web/spec-extension/response";
 import { NextRequest } from "next/server";
@@ -23,7 +24,16 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ data: stores, dataSize, page: pageQuery, totalPage: Math.ceil(dataSize / 20) });
   } else {
-    const stores = await prisma.store.findMany({ orderBy: { id: "asc" } });
+    const subId = req.nextUrl.searchParams.get("id");
+    const stores = await prisma.store.findMany({
+      orderBy: { id: "asc" },
+      include: {
+        likes: {
+          where: subId ? { userId: parseInt(subId) } : {},
+        },
+      },
+    });
+
     return NextResponse.json({ data: stores });
   }
 }
