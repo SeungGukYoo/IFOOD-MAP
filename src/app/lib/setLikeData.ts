@@ -7,7 +7,7 @@ export async function setLikeData(id: string) {
   });
 
   if (!response.ok) {
-    throw new Error("setLikeData에럭 발생");
+    throw new Error("setLikeData에러 발생");
   }
   return response.json();
 }
