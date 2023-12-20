@@ -1,9 +1,11 @@
-import { auth } from "@/util/auth";
-
-export const getStoresData = async () => {
+export const getStoresData = async (id?: string) => {
   try {
-    const authInfo = await auth();
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores?id=${authInfo?.user.access_token?.sub}`, {
+    let url = `${process.env.NEXT_PUBLIC_API_URL}/api/stores`;
+    if (id) {
+      url += `?id=${id}`;
+    }
+
+    const res = await fetch(url, {
       next: {
         revalidate: 3600,
       },
