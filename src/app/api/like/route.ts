@@ -46,21 +46,15 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ response }, { status: 200 });
 }
-export async function DELETE(req: Request) {
-  const { likeId } = await req.json();
-  const authInfo = await auth();
-  if (!authInfo) {
-    return {
-      data: "로그인한 사용자만 찜하기를 할 수 있습니다.",
-      status: "401",
-    };
+export async function DELETE(req: NextRequest) {
+  const likeId = req.nextUrl.searchParams.get("likeId");
+  if (!likeId) {
+    return NextResponse.json({ message: "권한이 없습니다." }, { status: 403 });
   }
-
-  const response = await prisma.like.delete({
+  await prisma.like.delete({
     where: {
-      id: likeId,
+      id: parseInt(likeId),
     },
   });
-
-  return NextResponse.json({ response }, { status: 200 });
+  return NextResponse.json({ status: 204 });
 }
