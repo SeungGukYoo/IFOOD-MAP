@@ -1,6 +1,5 @@
 import Map from "@/components/Map";
-import { dehydrate } from "@tanstack/react-query";
-import getQueryClient from "./lib/getQueryClient";
+import { auth } from "@/util/auth";
 import { getStoresData } from "./lib/getStoresData";
 
 export interface Like {
@@ -27,7 +26,8 @@ export type StoreDataType = {
   data: StoresType;
 };
 export default async function Home() {
-  const storeData: StoreDataType = await getStoresData();
+  const authInfo = await auth();
+  const storeData: StoreDataType = await getStoresData(authInfo?.user.access_token?.sub);
   return (
     <>
       <Map store={storeData.data} />
