@@ -1,6 +1,11 @@
-export const getStoresData = async () => {
+export const getStoresData = async (id?: string) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`, {
+    let url = `${process.env.NEXT_PUBLIC_API_URL}/api/stores`;
+    if (id) {
+      url += `?id=${id}`;
+    }
+
+    const res = await fetch(url, {
       next: {
         revalidate: 3600,
       },

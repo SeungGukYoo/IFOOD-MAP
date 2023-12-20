@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import React from "react";
 
 import useDeleteStore from "@/hooks/useDeleteStore";
+import LikeStoreBox from "./LikeStoreBox";
 import Map from "./Map";
 
 const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
@@ -21,7 +22,8 @@ const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
                 <h1 className="text-base font-semibold leading-3 text-gray-900 md:text-lg md:leading-[1]">상세보기</h1>
                 <p className="mt-1 text-sm leading-6 text-gray-500">식당에 대해 자세히 알아보세요.</p>
               </div>
-              <div className="flex gap-3">
+              <div className="flex gap-3 items-center">
+                <LikeStoreBox store={data} />
                 <Link
                   className="text-gray-300 font-medium focus:text-black hover:text-black"
                   href={`/stores/${params}/edit`}

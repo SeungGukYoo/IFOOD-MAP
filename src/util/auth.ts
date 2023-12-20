@@ -29,6 +29,12 @@ export const config = {
     strategy: 'jwt',
     maxAge: 60 * 60 * 12,
     updateAge: 60 * 60 * 2,
+  },
+  callbacks: {
+    async session({ session, token }) {
+      session.user.access_token = token;      
+      return session
+  } 
   }
 } satisfies NextAuthOptions;
 

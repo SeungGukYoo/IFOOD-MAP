@@ -1,7 +1,6 @@
 import getQueryClient from "@/app/lib/getQueryClient";
 import { getStoreData } from "@/app/lib/getStoreData";
 import EditFormBox from "@/components/EditFormBox";
-import FormBox from "@/components/FormBox";
 
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import React from "react";
@@ -17,7 +16,6 @@ const EditPage = async ({ params }: { params: { slug: string } }) => {
     staleTime: 60 * 1000 * 5,
   });
   const dehydratedState = dehydrate(queryClient);
-
   return (
     <>
       <HydrationBoundary state={dehydratedState}>

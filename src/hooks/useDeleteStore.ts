@@ -15,7 +15,7 @@ const useDeleteStore = (id: string | string[]) => {
       }
     },
     onError: (err) => {
-      console.log(err);
+      console.error(err);
     },
   });
 

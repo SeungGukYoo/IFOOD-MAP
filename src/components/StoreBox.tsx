@@ -6,18 +6,17 @@ import imageHandler from "@/util/markerHandler";
 import Image from "next/image";
 import React from "react";
 import { BsFillTelephoneFill } from "react-icons/bs";
-import { CiHeart } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa6";
-import { FcLike } from "react-icons/fc";
 import { IoCloseSharp, IoInformationCircle } from "react-icons/io5";
 import { MdLocationPin } from "react-icons/md";
+import LikeStoreBox from "./LikeStoreBox";
 
 interface StoreProps {
   store: StoreType;
   setCurrentSotre: React.Dispatch<React.SetStateAction<StoreType | null>>;
 }
 const StoreBox = ({ store, setCurrentSotre }: StoreProps) => {
-  const { like, setLike, moveDetailPage } = useStoreBox(store);
+  const { moveDetailPage } = useStoreBox(store);
   return (
     <div className="z-10 fixed transition ease-in-out delay-150 inset-x-0 mx-auto bottom-20 rounded-lg shadow-lg max-w-sm md:max-w-2xl w-full bg-white animate-[popUp_0.1s_ease-in]">
       <div className="p-8 flex flex-col items-start gap-3 relative">
@@ -53,9 +52,7 @@ const StoreBox = ({ store, setCurrentSotre }: StoreProps) => {
               {store.category || "미분류"}
             </div>
           </div>
-          <button onClick={() => setLike((prev) => (prev = !prev))} className="text-xl">
-            {like ? <FcLike /> : <CiHeart />}
-          </button>
+          <LikeStoreBox store={store} />
         </div>
       </div>
       <button
