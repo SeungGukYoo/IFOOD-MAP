@@ -11,10 +11,17 @@ const AddFormBox = () => {
   const router = useRouter();
   const { changeAddress } = useAddress();
   const { mutate: handleAddForm } = useMutation({
-    mutationFn: (data: StoreType) => setStoreData(data),
+    mutationFn: async (data: StoreType) => {
+      const res = await setStoreData(data);
+      if (res) {
+        changeAddress("");
+      }
+      return res;
+    },
     onSuccess: (data) => {
-      router.replace(`/stores/${data?.id}`);
-      changeAddress("");
+      if (data) {
+        router.replace(`/stores/${data?.id}`);
+      }
     },
   });
 
