@@ -50,6 +50,7 @@ model Session {
 
 model Store{
   id              Int       @id @default(autoincrement())
+  authorId        Int?
   phone           String?
   address         String?
   lat             String?  // y_dnts
@@ -58,7 +59,7 @@ model Store{
   category        String?
   storeType       String?
   foodCertifyName String?
-  likes Like[]
+  likes           Like[]
 }
 
 model Like {
