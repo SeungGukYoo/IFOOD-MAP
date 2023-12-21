@@ -6,12 +6,14 @@ import { useParams } from "next/navigation";
 import React from "react";
 
 import useDeleteStore from "@/hooks/useDeleteStore";
+import { useSession } from "next-auth/react";
 import LikeStoreBox from "./LikeStoreBox";
 import Map from "./Map";
 
 const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
   const { slug: params } = useParams();
   const { mutate } = useDeleteStore(params);
+  const session = useSession();
   return (
     <>
       <div className="max-w-[1024px] mx-auto py-10">
@@ -24,19 +26,22 @@ const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
               </div>
               <div className="flex gap-3 items-center">
                 <LikeStoreBox store={data} />
-                <Link
-                  className="text-gray-300 font-medium focus:text-black hover:text-black"
-                  href={`/stores/${params}/edit`}
-                >
-                  수정
-                </Link>
-
-                <button
-                  className="text-gray-300 font-medium focus:text-black hover:text-black"
-                  onClick={() => mutate()}
-                >
-                  삭제
-                </button>
+                {session.data?.user.access_token?.sub === data.authorId?.toString() && (
+                  <>
+                    <Link
+                      className="text-gray-300 font-medium focus:text-black hover:text-black"
+                      href={`/stores/${params}/edit`}
+                    >
+                      수정
+                    </Link>
+                    <button
+                      className="text-gray-300 font-medium focus:text-black hover:text-black"
+                      onClick={() => mutate()}
+                    >
+                      삭제
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
