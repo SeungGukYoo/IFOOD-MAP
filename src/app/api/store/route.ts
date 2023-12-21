@@ -1,8 +1,19 @@
 import { StoreType } from "@/app/page";
 import { auth } from "@/util/auth";
 import prisma from "@/util/prismaClient";
-
 import { NextRequest, NextResponse } from "next/server";
+
+interface IStoreType {
+  authorId?: number | null | undefined;
+  phone?: string | null | undefined;
+  address?: string | null | undefined;
+  lat?: string | null | undefined;
+  lng?: string | null | undefined;
+  name?: string | null | undefined;
+  category?: string | null | undefined;
+  storeType?: string | null | undefined;
+  foodCertifyName?: string | null | undefined;
+}
 
 export async function GET(req: NextRequest) {
   const id = req.nextUrl.searchParams.get("id");
@@ -28,9 +39,13 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: Request) {
-  const { data } = await req.json();
+  const { data }: { data: IStoreType } = await req.json();
+  const authInfo = await auth();
   const store = await prisma.store.create({
-    data,
+    data: {
+      ...data,
+      authorId: parseInt(authInfo?.user.access_token?.sub!),
+    },
   });
   return NextResponse.json(store, { status: 201 });
 }
