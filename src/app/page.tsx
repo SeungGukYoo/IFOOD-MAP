@@ -19,7 +19,8 @@ export interface StoreType {
   category?: string;
   storeType?: string;
   foodCertifyName?: string;
-  likes: Like[];
+  authorId?: number;
+  likes?: Like[];
 }
 export type StoresType = StoreType[];
 export type StoreDataType = {
