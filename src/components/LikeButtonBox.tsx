@@ -4,7 +4,7 @@ import React from "react";
 import { CiHeart } from "react-icons/ci";
 import { FcLike } from "react-icons/fc";
 
-const LikeStoreBox = ({ store }: { store: StoreType }) => {
+const LikeButtonBox = ({ store }: { store: StoreType }) => {
   const { like, updateLike } = useLikeStore(store);
 
   return (
@@ -16,4 +16,4 @@ const LikeStoreBox = ({ store }: { store: StoreType }) => {
   );
 };
 
-export default LikeStoreBox;
+export default LikeButtonBox;

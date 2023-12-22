@@ -9,7 +9,7 @@ import { BsFillTelephoneFill } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa6";
 import { IoCloseSharp, IoInformationCircle } from "react-icons/io5";
 import { MdLocationPin } from "react-icons/md";
-import LikeStoreBox from "./LikeStoreBox";
+import LikeButtonBox from "./LikeButtonBox";
 
 interface StoreProps {
   store: StoreType;
@@ -52,7 +52,7 @@ const StoreBox = ({ store, setCurrentSotre }: StoreProps) => {
               {store.category || "미분류"}
             </div>
           </div>
-          <LikeStoreBox store={store} />
+          <LikeButtonBox store={store} />
         </div>
       </div>
       <button

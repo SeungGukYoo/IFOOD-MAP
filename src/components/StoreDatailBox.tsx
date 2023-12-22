@@ -7,7 +7,7 @@ import React from "react";
 
 import useDeleteStore from "@/hooks/useDeleteStore";
 import { useSession } from "next-auth/react";
-import LikeStoreBox from "./LikeStoreBox";
+import LikeButtonBox from "./LikeButtonBox";
 import Map from "./Map";
 
 const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
@@ -25,7 +25,7 @@ const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
                 <p className="mt-1 text-sm leading-6 text-gray-500">식당에 대해 자세히 알아보세요.</p>
               </div>
               <div className="flex gap-3 items-center">
-                <LikeStoreBox store={data} />
+                <LikeButtonBox store={data} />
                 {session.data?.user.access_token?.sub === data.authorId?.toString() && (
                   <>
                     <Link

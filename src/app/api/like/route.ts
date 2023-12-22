@@ -10,17 +10,16 @@ interface Response {
 }
 
 export async function GET(req: NextRequest) {
-  const storeId = req.nextUrl.searchParams.get("storeId");
-  const authInfo = await auth();
-
-  if (!authInfo) {
+  const userId = req.nextUrl.searchParams.get("userId");
+  if (!userId) {
     return NextResponse.json({ message: "로그인한 사용자만 접근이 가능합니다." }, { status: 401 });
   }
-
-  const response = await prisma.like.findFirst({
+  const response = await prisma.like.findMany({
     where: {
-      storeId: parseInt(storeId!),
-      userId: parseInt(authInfo.user.access_token?.sub!),
+      userId: parseInt(userId),
+    },
+    include: {
+      store: true,
     },
   });
 
