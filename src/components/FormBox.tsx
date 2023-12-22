@@ -34,8 +34,8 @@ const FormBox = ({ submit, initialValue, isEditing }: FormBoxProps) => {
       <form className="px-4" onSubmit={handleSubmit(submitForm)}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">맛집 등록</h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600">나만의 맛집을 새롭게 등록하세요</p>
+            <h2 className="text-base font-semibold leading-7 text-gray-900 md:text-xl">맛집 등록</h2>
+            <p className="mt-1 text-sm leading-6 text-gray-600 md:text-base">나만의 맛집을 새롭게 등록하세요</p>
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3">
                 <label htmlFor="name-1" className="block text-sm font-medium leading-6 text-gray-900">
