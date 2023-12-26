@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
 
+import CommentInputBox from "@/app/stores/(components)/CommentInputBox";
 import CommentList from "@/app/stores/(components)/CommentList";
 import useDeleteStore from "@/hooks/useDeleteStore";
 import { useSession } from "next-auth/react";
@@ -82,7 +83,10 @@ const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
           </dl>
         </div>
         <div className="border-t border-gray-100">
-          <CommentList />
+          <div className="mt-4 px-4">
+            <CommentInputBox store={data} />
+            <CommentList />
+          </div>
         </div>
       </div>
     </>
