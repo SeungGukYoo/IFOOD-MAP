@@ -5,9 +5,11 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
 
+import CommentBox from "@/app/stores/(components)/CommentBox";
 import CommentInputBox from "@/app/stores/(components)/CommentInputBox";
 import CommentList from "@/app/stores/(components)/CommentList";
 import useDeleteStore from "@/hooks/useDeleteStore";
+import usePopupStore from "@/hooks/usePopupStore";
 import { useSession } from "next-auth/react";
 import LikeButtonBox from "./LikeButtonBox";
 import Map from "./Map";
@@ -16,6 +18,7 @@ const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
   const { slug: params } = useParams();
   const { mutate } = useDeleteStore(params);
   const session = useSession();
+  const { setIsPopup } = usePopupStore();
   return (
     <>
       <div className="max-w-[1024px] mx-auto py-10">
@@ -85,7 +88,16 @@ const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
         <div className="border-t border-gray-100">
           <div className="mt-4 px-4">
             <CommentInputBox store={data} />
-            <CommentList />
+            <ul
+              className="divide-y-2 divide-gray-100"
+              onClick={(e) => {
+                setIsPopup(-1);
+              }}
+            >
+              {data.comments.map((comment, idx) => (
+                <CommentBox comment={comment} idx={idx} key={comment.id} />
+              ))}
+            </ul>
           </div>
         </div>
       </div>
