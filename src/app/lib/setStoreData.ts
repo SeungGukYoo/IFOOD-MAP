@@ -4,7 +4,7 @@ export async function setStoreData(data: StoreType): Promise<void | StoreType> {
   try {
     if (data.id) {
       const response = await fetch("/api/store", {
-        method: "PATCH",
+        method: "PUT",
         body: JSON.stringify({
           data,
         }),
