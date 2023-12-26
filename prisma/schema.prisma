@@ -20,6 +20,7 @@ model User{
   account         Account[]
   session         Session[]  
   likes           Like[]
+  comments        Comment[]
 }
 
 model Account {
@@ -60,6 +61,7 @@ model Store{
   storeType       String?
   foodCertifyName String?
   likes           Like[]
+  comments        Comment[]
 }
 
 model Like {
@@ -70,4 +72,14 @@ model Like {
   store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id],onDelete: Cascade)  
   @@index([userId,storeId])
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+  storeId Int
+  userId Int
+  createdAt DateTime @default(now())
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id],onDelete: Cascade)  
+  @@index([storeId,userId])
 }
