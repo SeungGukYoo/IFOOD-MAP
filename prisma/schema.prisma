@@ -20,7 +20,7 @@ model User{
   account         Account[]
   session         Session[]  
   likes           Like[]
-  comments        Comment[]
+  comments        Comments[]
 }
 
 model Account {
@@ -61,7 +61,7 @@ model Store{
   storeType       String?
   foodCertifyName String?
   likes           Like[]
-  comments        Comment[]
+  comments        Comments[]
 }
 
 model Like {
@@ -74,7 +74,7 @@ model Like {
   @@index([userId,storeId])
 }
 
-model Comment {
+model Comments {
   id Int @id @default(autoincrement())
   storeId Int
   userId Int
