@@ -6,9 +6,7 @@ export const getStoresData = async (id?: string) => {
     }
 
     const res = await fetch(url, {
-      next: {
-        revalidate: 3600,
-      },
+      cache: "no-store",
     });
 
     if (!res.ok) {

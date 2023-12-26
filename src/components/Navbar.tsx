@@ -29,9 +29,17 @@ const Navbar = () => {
           {session?.status === "authenticated" || session?.status === "unauthenticated" ? (
             <>
               {session?.status === "authenticated" ? (
-                <button className="navigation__btn" onClick={() => signOut({ callbackUrl: "http://localhost:3000/" })}>
-                  로그아웃
-                </button>
+                <>
+                  <Link className="navigation__btn" href="/user/mypage">
+                    나의 정보
+                  </Link>
+                  <button
+                    className="navigation__btn"
+                    onClick={() => signOut({ callbackUrl: "http://localhost:3000/" })}
+                  >
+                    로그아웃
+                  </button>
+                </>
               ) : (
                 <Link className="navigation__btn" href="/user/login">
                   로그인
