@@ -17,7 +17,7 @@ interface IStoreType {
 
 export async function GET(req: NextRequest) {
   const id = req.nextUrl.searchParams.get("id");
-  const autoInfo = await auth();
+  const authInfo = await auth();
 
   if (!id) {
     return NextResponse.json({ message: "존재하지 않는 정보입니다." }, { status: 404 });
@@ -28,9 +28,17 @@ export async function GET(req: NextRequest) {
     },
     include: {
       likes: {
-        where: autoInfo?.user.access_token?.sub
-          ? { userId: parseInt(autoInfo?.user.access_token?.sub), storeId: parseInt(id) }
+        where: authInfo?.user.access_token?.sub
+          ? {
+              userId: parseInt(authInfo?.user.access_token?.sub),
+              storeId: parseInt(id),
+            }
           : {},
+      },
+      comments: {
+        include: {
+          user: true,
+        },
       },
     },
   });
@@ -49,7 +57,7 @@ export async function POST(req: Request) {
   });
   return NextResponse.json(store, { status: 201 });
 }
-export async function PATCH(req: Request) {
+export async function PUT(req: Request) {
   const { data } = await req.json();
   const store = await prisma.store.update({
     where: {
