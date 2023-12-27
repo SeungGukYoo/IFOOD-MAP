@@ -1,10 +1,12 @@
 "use client";
 import { StoreType } from "@/app/page";
-import useComment from "@/hooks/useComment";
+import useAddComment from "@/hooks/useAddComment";
+
 import React from "react";
 
 const CommentInputBox = ({ store }: { store: StoreType }) => {
-  const { content, onChangeContent, onSumbitComment } = useComment(store?.id);
+  const { content, onChangeContent, onSumbitComment } = useAddComment(store?.id);
+
   return (
     <div className="w-full relative mb-2">
       <input

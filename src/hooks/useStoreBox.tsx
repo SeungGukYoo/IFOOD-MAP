@@ -1,6 +1,6 @@
-import { StoreType } from "@/app/page";
 import { useRouter } from "next/navigation";
 import useLocationStore from "./useLocationStore";
+import { StoreType } from "@/app/page";
 
 const useStoreBox = (store: StoreType) => {
   const { changeCoordinates } = useLocationStore();

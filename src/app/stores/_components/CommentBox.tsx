@@ -1,14 +1,18 @@
 "use client";
 import deleteCommentData from "@/app/lib/deleteCommentData";
 import { Comment } from "@/app/page";
+import useEditCommentStore from "@/hooks/useCommentEditStore";
 import usePopupStore from "@/hooks/usePopupStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import React from "react";
 import { LuUser2 } from "react-icons/lu";
+import CommentInput from "./CommentInput";
 
 const CommentBox = ({ comment, idx }: { comment: Comment; idx: number }) => {
   const { isPopup, setIsPopup } = usePopupStore();
+
+  const { setIsEdit } = useEditCommentStore();
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: () => deleteCommentData(comment.id),
@@ -32,10 +36,9 @@ const CommentBox = ({ comment, idx }: { comment: Comment; idx: number }) => {
             <LuUser2 className="w-[30px] h-[30px]" />
           </div>
         )}
-        <div>
+        <div className="w-full">
           <h1 className="font-bold text-[14px] md:text-base">{comment.user.email}</h1>
-          <p className="test-[16px] leading-5 lg:leading-none">{comment.content}</p>
-          <span className="text-gray-400 text-sm">{comment.createdAt.split("T")[0]}</span>
+          <CommentInput comment={comment} idx={idx} />
         </div>
       </div>
       <div className="absolute top-[16px] right-[12px]">
@@ -51,7 +54,9 @@ const CommentBox = ({ comment, idx }: { comment: Comment; idx: number }) => {
           <span className="inline-block w-[4px] h-[4px] bg-black rounded-full" />
           {isPopup === idx && (
             <div className=" bg-white w-[70px] text-black absolute right-0 border rounded top-5 flex flex-col items-center gap-2 ">
-              <button className="block hover:bg-slate-400 w-full py-1">수정</button>
+              <button className="block hover:bg-slate-400 w-full py-1" onClick={() => setIsEdit(idx)}>
+                수정
+              </button>
               <button className="block  hover:bg-slate-400 w-full py-1" onClick={() => mutate()}>
                 삭제
               </button>

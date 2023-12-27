@@ -1,10 +1,10 @@
 "use client";
 
+import ErrorBox from "@/app/(common)/_components/ErrorBox";
 import { getStoreData } from "@/app/lib/getStoreData";
-import ErrorBox from "@/components/ErrorBox";
-import StoreDetailBox from "@/components/StoreDetailBox";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import StoreDetailBox from "../_components/StoreDetailBox";
 
 const DetailPage = ({ params }: { params: { slug: string } }) => {
   const { data, isLoading, isError, isSuccess } = useQuery({

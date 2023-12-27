@@ -1,4 +1,4 @@
-import LoadingSpiner from "@/components/LoadingSpiner";
+import LoadingSpiner from "@/app/(common)/_components/LoadingSpiner";
 import React from "react";
 
 const Loading = () => {

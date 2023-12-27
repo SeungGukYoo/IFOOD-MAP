@@ -1,30 +1,13 @@
-"use client";
-import setCommentData from "@/app/lib/setCommentData";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 
-export interface CommentDataObject {
-  userId: number;
-  storeId: number;
-  content: string;
-}
-
-const useComment = (storeId?: number) => {
+const useEditComment = (storeId?: number) => {
   const [content, setContent] = useState("");
-  const queryClient = useQueryClient();
-  const { mutate } = useMutation({
-    mutationKey: ["store", storeId?.toString()],
-    mutationFn: (data: CommentDataObject) => setCommentData(data),
-    onSuccess: (data) => {
-      if (data?.ok) {
-        queryClient.invalidateQueries({ queryKey: ["store", storeId?.toString()] });
-        setContent("");
-      }
-    },
-  });
-
   const session = useSession();
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({});
+
   const onChangeContent = (e: React.ChangeEvent<HTMLInputElement> & React.KeyboardEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setContent(value);
@@ -44,10 +27,10 @@ const useComment = (storeId?: number) => {
       content,
     };
 
-    mutate(commentDataObject);
+    mutate();
   };
 
   return { content, onChangeContent, onSumbitComment };
 };
 
-export default useComment;
+export default useEditComment;

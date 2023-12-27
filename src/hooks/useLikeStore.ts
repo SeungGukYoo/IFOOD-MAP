@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const useLikeStore = (store: StoreType) => {
   const queryClient = useQueryClient();
-  const [like, setLike] = useState(!!store.likes.length);
+  const [like, setLike] = useState(!!store.likes?.length);
   const likeStore = async (storeId: string) => {
     try {
       const response = await setLikeData(storeId);

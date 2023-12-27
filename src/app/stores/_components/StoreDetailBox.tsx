@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
 
-import CommentBox from "@/app/stores/(components)/CommentBox";
-import CommentInputBox from "@/app/stores/(components)/CommentInputBox";
+import CommentBox from "@/app/stores/_components/CommentBox";
+import CommentInputBox from "@/app/stores/_components/CommentInputBox";
 
 import useDeleteStore from "@/hooks/useDeleteStore";
 import usePopupStore from "@/hooks/usePopupStore";

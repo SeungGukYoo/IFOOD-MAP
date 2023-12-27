@@ -1,6 +1,6 @@
-import Map from "@/components/Map";
 import { auth } from "@/util/auth";
 import { getStoresData } from "./lib/getStoresData";
+import Map from "./stores/_components/Map";
 
 type NullAble<T> = T | null;
 
@@ -39,7 +39,7 @@ export interface StoreType {
   foodCertifyName?: string;
   authorId?: number;
   likes?: Like[];
-  comments: Comment[];
+  comments?: Comment[];
 }
 export type StoresType = StoreType[];
 export type StoreDataType = {

@@ -9,10 +9,13 @@ interface Action {
 
 const usePopupStore = create<Store & Action>()((set, get) => ({
   isPopup: -1,
-  setIsPopup: (idx: number) =>
-    set({
-      isPopup: idx,
-    }),
+  setIsPopup: (idx: number) => {
+    if (idx !== get().isPopup) {
+      set({
+        isPopup: idx,
+      });
+    }
+  },
 }));
 
 export default usePopupStore;

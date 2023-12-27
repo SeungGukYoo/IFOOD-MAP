@@ -1,4 +1,4 @@
-import { CommentDataObject } from "@/hooks/useComment";
+import { CommentDataObject } from "@/hooks/useAddComment";
 import prisma from "@/util/prismaClient";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -9,6 +9,18 @@ export async function POST(req: Request) {
       storeId: data.storeId,
       content: data.content,
       userId: data.userId,
+    },
+  });
+  return NextResponse.json({ data: response }, { status: 200 });
+}
+export async function PUT(req: Request) {
+  const { data }: { data: { content: string; id: number } } = await req.json();
+  const response = await prisma.comments.update({
+    where: {
+      id: data.id,
+    },
+    data: {
+      content: data.content,
     },
   });
   return NextResponse.json({ data: response }, { status: 200 });

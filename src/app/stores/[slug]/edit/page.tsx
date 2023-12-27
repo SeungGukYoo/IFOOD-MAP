@@ -1,9 +1,8 @@
 import getQueryClient from "@/app/lib/getQueryClient";
 import { getStoreData } from "@/app/lib/getStoreData";
-import EditFormBox from "@/components/EditFormBox";
-
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import React from "react";
+import EditFormBox from "../../_components/EditFormBox";
 
 const EditPage = async ({ params }: { params: { slug: string } }) => {
   const queryClient = getQueryClient();
