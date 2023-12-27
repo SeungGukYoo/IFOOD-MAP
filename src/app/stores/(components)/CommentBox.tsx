@@ -1,12 +1,25 @@
 "use client";
+import deleteCommentData from "@/app/lib/deleteCommentData";
 import { Comment } from "@/app/page";
 import usePopupStore from "@/hooks/usePopupStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import { LuUser2 } from "react-icons/lu";
 
 const CommentBox = ({ comment, idx }: { comment: Comment; idx: number }) => {
   const { isPopup, setIsPopup } = usePopupStore();
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: () => deleteCommentData(comment.id),
+    mutationKey: ["store", comment.storeId.toString()],
+    onSuccess: (data) => {
+      if (data?.ok) {
+        queryClient.invalidateQueries({ queryKey: ["store", comment.storeId.toString()] });
+        setIsPopup(-1);
+      }
+    },
+  });
   return (
     <li className="px-2 py-3 relative md:px-3 md:py-4">
       <div className="flex gap-4">
@@ -39,7 +52,9 @@ const CommentBox = ({ comment, idx }: { comment: Comment; idx: number }) => {
           {isPopup === idx && (
             <div className=" bg-white w-[70px] text-black absolute right-0 border rounded top-5 flex flex-col items-center gap-2 ">
               <button className="block hover:bg-slate-400 w-full py-1">수정</button>
-              <button className="block  hover:bg-slate-400 w-full py-1">삭제</button>
+              <button className="block  hover:bg-slate-400 w-full py-1" onClick={() => mutate()}>
+                삭제
+              </button>
             </div>
           )}
         </div>
