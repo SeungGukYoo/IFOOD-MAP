@@ -9,6 +9,7 @@ const CommentInputBox = ({ store }: { store: StoreType }) => {
     <div className="w-full relative mb-2">
       <input
         onChange={onChangeContent}
+        onKeyUp={onChangeContent}
         name="comment"
         placeholder="댓글을 남겨보세요"
         className="w-full border outline-none rounded py-2 pl-2 pr-20 md:py-2 md:text-lg"
