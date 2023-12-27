@@ -7,18 +7,19 @@ import React from "react";
 
 import CommentBox from "@/app/stores/(components)/CommentBox";
 import CommentInputBox from "@/app/stores/(components)/CommentInputBox";
-import CommentList from "@/app/stores/(components)/CommentList";
+
 import useDeleteStore from "@/hooks/useDeleteStore";
 import usePopupStore from "@/hooks/usePopupStore";
 import { useSession } from "next-auth/react";
 import LikeButtonBox from "./LikeButtonBox";
 import Map from "./Map";
 
-const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
+const StoreDetailBox = ({ store: data }: { store: StoreType }) => {
   const { slug: params } = useParams();
   const { mutate } = useDeleteStore(params);
   const session = useSession();
   const { setIsPopup } = usePopupStore();
+
   return (
     <>
       <div className="max-w-[1024px] mx-auto py-10">
@@ -30,22 +31,23 @@ const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
             </div>
             <div className="flex gap-3 items-center">
               <LikeButtonBox store={data} />
-              {session.data?.user.access_token?.sub === data.authorId?.toString() && (
-                <>
-                  <Link
-                    className="text-gray-300 font-medium focus:text-black hover:text-black"
-                    href={`/stores/${params}/edit`}
-                  >
-                    수정
-                  </Link>
-                  <button
-                    className="text-gray-300 font-medium focus:text-black hover:text-black"
-                    onClick={() => mutate()}
-                  >
-                    삭제
-                  </button>
-                </>
-              )}
+              {session.data?.user.access_token?.sub &&
+                session.data?.user.access_token?.sub === data.authorId?.toString() && (
+                  <>
+                    <Link
+                      className="text-gray-300 font-medium focus:text-black hover:text-black"
+                      href={`/stores/${params}/edit`}
+                    >
+                      수정
+                    </Link>
+                    <button
+                      className="text-gray-300 font-medium focus:text-black hover:text-black"
+                      onClick={() => mutate()}
+                    >
+                      삭제
+                    </button>
+                  </>
+                )}
             </div>
           </div>
         </div>
@@ -87,7 +89,7 @@ const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
         </div>
         <div className="border-t border-gray-100">
           <div className="mt-4 px-4">
-            <CommentInputBox store={data} />
+            {session.data?.user.access_token?.sub && <CommentInputBox store={data} />}
             <ul
               className="divide-y-2 divide-gray-100"
               onClick={(e) => {
@@ -105,4 +107,4 @@ const StoreDatailBox = ({ store: data }: { store: StoreType }) => {
   );
 };
 
-export default StoreDatailBox;
+export default StoreDetailBox;

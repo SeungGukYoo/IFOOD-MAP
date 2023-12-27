@@ -2,7 +2,7 @@
 
 import { getStoreData } from "@/app/lib/getStoreData";
 import ErrorBox from "@/components/ErrorBox";
-import StoreDatailBox from "@/components/StoreDatailBox";
+import StoreDetailBox from "@/components/StoreDetailBox";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
@@ -19,7 +19,7 @@ const DetailPage = ({ params }: { params: { slug: string } }) => {
   return (
     <>
       {isLoading && <h1>loading!!</h1>}
-      {isSuccess && <StoreDatailBox store={data} />}
+      {isSuccess && <StoreDetailBox store={data} />}
     </>
   );
 };
