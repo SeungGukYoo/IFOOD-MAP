@@ -1,6 +1,6 @@
-import { StoreType } from "@/app/page";
 import { auth } from "@/util/auth";
 import prisma from "@/util/prismaClient";
+import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 interface IStoreType {
@@ -22,26 +22,30 @@ export async function GET(req: NextRequest) {
   if (!id) {
     return NextResponse.json({ message: "존재하지 않는 정보입니다." }, { status: 404 });
   }
-  const data = await prisma.store.findUnique({
+  const prismaStoreOption: Prisma.StoreFindUniqueArgs = {
     where: {
       id: parseInt(id),
     },
     include: {
-      likes: {
-        where: authInfo?.user.access_token?.sub
-          ? {
-              userId: parseInt(authInfo?.user.access_token?.sub),
-              storeId: parseInt(id),
-            }
-          : {},
-      },
       comments: {
         include: {
           user: true,
         },
       },
     },
-  });
+  };
+  if (authInfo?.user.access_token?.sub) {
+    prismaStoreOption.include = {
+      ...prismaStoreOption.include,
+      likes: {
+        where: {
+          userId: parseInt(authInfo?.user.access_token?.sub),
+          storeId: parseInt(id),
+        },
+      },
+    };
+  }
+  const data = await prisma.store.findUnique(prismaStoreOption);
 
   return NextResponse.json(data, { status: 200 });
 }
