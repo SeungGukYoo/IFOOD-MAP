@@ -96,9 +96,8 @@ const StoreDetailBox = ({ store: data }: { store: StoreType }) => {
                 setIsPopup(-1);
               }}
             >
-              {data.comments.map((comment, idx) => (
-                <CommentBox comment={comment} idx={idx} key={comment.id} />
-              ))}
+              {data.comments &&
+                data.comments.map((comment, idx) => <CommentBox comment={comment} idx={idx} key={comment.id} />)}
             </ul>
           </div>
         </div>
