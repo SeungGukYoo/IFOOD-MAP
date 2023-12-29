@@ -1,36 +1,18 @@
+import setCommentData from "@/app/lib/setCommentData";
+import { Comment } from "@/app/page";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
+
 import React, { useState } from "react";
 
-const useEditComment = (storeId?: number) => {
-  const [content, setContent] = useState("");
-  const session = useSession();
-  const queryClient = useQueryClient();
-  const { mutate } = useMutation({});
+const useEditComment = (comment: Comment) => {
+  const [content, setContent] = useState(comment.content);
 
-  const onChangeContent = (e: React.ChangeEvent<HTMLInputElement> & React.KeyboardEvent<HTMLInputElement>) => {
+  const onChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement> & React.KeyboardEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setContent(value);
-    if (e.code === "Enter") {
-      onSumbitComment();
-    }
   };
 
-  const onSumbitComment = () => {
-    if (!storeId || !session.data?.user.access_token?.sub) {
-      return;
-    }
-
-    const commentDataObject = {
-      userId: parseInt(session.data?.user.access_token?.sub),
-      storeId,
-      content,
-    };
-
-    mutate();
-  };
-
-  return { content, onChangeContent, onSumbitComment };
+  return { content, onChangeContent };
 };
 
 export default useEditComment;
