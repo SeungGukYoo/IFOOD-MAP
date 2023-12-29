@@ -1,15 +1,17 @@
 import { CommentDataObject } from "@/hooks/useAddComment";
 import React from "react";
 
-const setCommentData = async (data: CommentDataObject, commentId?: number) => {
+type CommentDataType = CommentDataObject | string;
+
+const setCommentData = async (data: CommentDataType, commentId?: number) => {
   try {
     if (commentId) {
-      // const response = await fetch("/api/comment", {
-      //   method: "PUT",
-      //   body: JSON.stringify({ data, id: commentId }),
-      //   cache: "no-store",
-      // });
-      // return response
+      const response = await fetch("/api/comment", {
+        method: "PUT",
+        body: JSON.stringify({ data, id: commentId }),
+        cache: "no-store",
+      });
+      return response;
     } else {
       const response = await fetch("/api/comment", {
         method: "POST",
