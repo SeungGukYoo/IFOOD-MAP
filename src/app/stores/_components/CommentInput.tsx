@@ -1,48 +1,31 @@
-import setCommentData from "@/app/lib/setCommentData";
 import { Comment } from "@/app/page";
-import useCommentEditStore from "@/hooks/useCommentEditStore";
 import useEditComment from "@/hooks/useEditComment";
+import usePopupControl from "@/hooks/usePopupControl";
 import usePopupStore from "@/hooks/usePopupStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+import React from "react";
 
 const CommentInput = ({ comment, idx }: { comment: Comment; idx: number }) => {
-  const queryClient = useQueryClient();
-  const { mutate } = useMutation({
-    mutationKey: ["store", comment.storeId.toString()],
-    mutationFn: () => setCommentData(content, comment.id),
-    onSuccess: (data) => {
-      if (data?.ok) {
-        queryClient.invalidateQueries({ queryKey: ["store", comment.storeId.toString()] });
-        setIsEdit(-1);
-      }
-    },
-  });
-
+  const { content, onChangeContent, isEdit, setIsEdit, submitEditComment } = useEditComment(comment);
   const { setIsPopup } = usePopupStore();
-  const { isEdit, setIsEdit } = useCommentEditStore();
-  const { content, onChangeContent } = useEditComment(comment);
-  useEffect(() => {
-    if (idx === isEdit) {
-      setIsPopup(-1);
-    }
-  }, [setIsPopup, isEdit, idx]);
+
+  usePopupControl(idx, isEdit, setIsPopup);
+
   return (
     <>
       {isEdit === idx ? (
         <div className="w-full relative mb-2">
           <div className="w-full relative">
             <textarea
-              rows={10}
+              rows={6}
               className="p-2 test-[16px] w-full leading-5 lg:leading-none border resize-none mt-3 rounded outline-none shadow"
               onChange={onChangeContent}
               defaultValue={content}
             />
 
-            <div className="flex gap-4 justify-end mt-2">
+            <div className="flex gap-4 justify-end mt-1">
               <button
-                className=" px-4 py-1 rounded-2xl right-2 bg-gray-400 text-white md:bottom-[7px] shadow"
-                onClick={() => mutate()}
+                className="px-4 py-1 rounded-2xl right-2 bg-gray-400 text-white md:bottom-[7px] shadow"
+                onClick={() => submitEditComment()}
               >
                 수정
               </button>
