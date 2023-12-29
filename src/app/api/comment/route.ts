@@ -14,13 +14,13 @@ export async function POST(req: Request) {
   return NextResponse.json({ data: response }, { status: 200 });
 }
 export async function PUT(req: Request) {
-  const { data }: { data: { content: string; id: number } } = await req.json();
+  const { data, id }: { data: string; id: number } = await req.json();
   const response = await prisma.comments.update({
     where: {
-      id: data.id,
+      id: id,
     },
     data: {
-      content: data.content,
+      content: data,
     },
   });
   return NextResponse.json({ data: response }, { status: 200 });
