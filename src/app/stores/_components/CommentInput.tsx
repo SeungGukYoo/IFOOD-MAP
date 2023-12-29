@@ -25,7 +25,7 @@ const CommentInput = ({ comment, idx }: { comment: Comment; idx: number }) => {
             <div className="flex gap-4 justify-end mt-1">
               <button
                 className="px-4 py-1 rounded-2xl right-2 bg-gray-400 text-white md:bottom-[7px] shadow"
-                onClick={() => submitEditComment()}
+                onClick={submitEditComment}
               >
                 수정
               </button>

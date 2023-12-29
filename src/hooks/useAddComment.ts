@@ -1,8 +1,7 @@
 "use client";
-import setCommentData from "@/app/lib/setCommentData";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
+import useCommentMutation from "./useCommentMutation";
 
 export interface CommentDataObject {
   userId: number;
@@ -10,20 +9,10 @@ export interface CommentDataObject {
   content: string;
 }
 
-const useAddComment = (storeId?: number) => {
+const useAddComment = (storeId: number) => {
   const [content, setContent] = useState("");
   const session = useSession();
-  const queryClient = useQueryClient();
-  const { mutate } = useMutation({
-    mutationKey: ["store", storeId?.toString()],
-    mutationFn: (data: CommentDataObject) => setCommentData(data),
-    onSuccess: (data) => {
-      if (data?.ok) {
-        queryClient.invalidateQueries({ queryKey: ["store", storeId?.toString()] });
-        setContent("");
-      }
-    },
-  });
+  const { mutate: submitAddCommentData } = useCommentMutation(storeId);
 
   const onChangeContent = (e: React.ChangeEvent<HTMLInputElement> & React.KeyboardEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -33,18 +22,25 @@ const useAddComment = (storeId?: number) => {
     }
   };
 
+  const onSuccessCallback = () => {
+    setContent("");
+  };
+
   const onSumbitComment = () => {
     if (!storeId || !session.data?.user.access_token?.sub) {
       return;
     }
-
     const commentDataObject = {
       userId: parseInt(session.data?.user.access_token?.sub),
       storeId,
       content,
     };
-
-    mutate(commentDataObject);
+    submitAddCommentData(
+      { commentData: commentDataObject },
+      {
+        onSuccess: onSuccessCallback,
+      }
+    );
   };
 
   return { content, onChangeContent, onSumbitComment };

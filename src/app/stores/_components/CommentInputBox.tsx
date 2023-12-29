@@ -5,7 +5,7 @@ import useAddComment from "@/hooks/useAddComment";
 import React from "react";
 
 const CommentInputBox = ({ store }: { store: StoreType }) => {
-  const { content, onChangeContent, onSumbitComment } = useAddComment(store?.id);
+  const { content, onChangeContent, onSumbitComment } = useAddComment(store.id!);
 
   return (
     <div className="w-full relative mb-2">
