@@ -1,4 +1,6 @@
 "use client";
+
+import LocationButton from "@/app/(common)/_components/LocationButton";
 import { StoresType } from "@/app/page";
 import useMap from "@/hooks/useMap";
 import { usePathname } from "next/navigation";
@@ -12,7 +14,7 @@ interface MapProps {
 
 const Map = ({ store }: MapProps) => {
   const { currentSotre, setStoreData, loadKakaoMap, setCurrentSotre } = useMap();
-  let path = usePathname();
+  const path = usePathname();
 
   useEffect(() => {
     if (store) {
@@ -29,6 +31,7 @@ const Map = ({ store }: MapProps) => {
         src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_KEY}&autoload=false`}
         onReady={() => loadKakaoMap(store)}
       />
+      {path === "/" && <LocationButton />}
       {currentSotre && <StoreBox store={currentSotre} setCurrentSotre={setCurrentSotre} />}
     </div>
   );
