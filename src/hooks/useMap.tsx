@@ -4,9 +4,10 @@ import { StoreType, StoresType } from "@/app/page";
 import { useEffect, useState } from "react";
 import useLocationStore from "./useLocationStore";
 import useMapSetting from "./useMapSetting";
+import useMapStore from "./useMapStore";
 
 const useMap = () => {
-  const [map, setMap] = useState<kakao.maps.Map>();
+  const { map, setMap } = useMapStore();
   const [storeData, setStoreData] = useState<StoresType>();
   const [currentSotre, setCurrentSotre] = useState<StoreType | null>(null);
   const { latitude, longitude, changeCoordinates, getCoordinates } = useLocationStore();
@@ -60,6 +61,7 @@ const useMap = () => {
       });
     }
   }, [map, settingMapAndOverlay, storeData]);
+
   return {
     currentSotre,
     setStoreData,
