@@ -1,29 +1,19 @@
 "use client";
-import deleteCommentData from "@/app/lib/deleteCommentData";
+
 import { Comment } from "@/app/page";
 import useEditCommentStore from "@/hooks/useCommentEditStore";
+import useDeleteComment from "@/hooks/useDeleteComment";
 import usePopupStore from "@/hooks/usePopupStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import React from "react";
 import { LuUser2 } from "react-icons/lu";
 import CommentInput from "./CommentInput";
 
 const CommentBox = ({ comment, idx }: { comment: Comment; idx: number }) => {
+  const { handleDeleteComment } = useDeleteComment(comment);
   const { isPopup, setIsPopup } = usePopupStore();
-
   const { setIsEdit } = useEditCommentStore();
-  const queryClient = useQueryClient();
-  const { mutate } = useMutation({
-    mutationFn: () => deleteCommentData(comment.id),
-    mutationKey: ["store", comment.storeId.toString()],
-    onSuccess: (data) => {
-      if (data?.ok) {
-        queryClient.invalidateQueries({ queryKey: ["store", comment.storeId.toString()] });
-        setIsPopup(-1);
-      }
-    },
-  });
+
   return (
     <li className="px-2 py-3 relative md:px-3 md:py-4">
       <div className="flex gap-4">
@@ -57,7 +47,7 @@ const CommentBox = ({ comment, idx }: { comment: Comment; idx: number }) => {
               <button className="block hover:bg-slate-400 w-full py-1" onClick={() => setIsEdit(idx)}>
                 수정
               </button>
-              <button className="block  hover:bg-slate-400 w-full py-1" onClick={() => mutate()}>
+              <button className="block  hover:bg-slate-400 w-full py-1" onClick={handleDeleteComment}>
                 삭제
               </button>
             </div>
