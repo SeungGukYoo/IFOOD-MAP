@@ -1,6 +1,6 @@
 "use client";
-import { getStoreData } from "@/app/lib/getStoreData";
-import { setStoreData } from "@/app/lib/setStoreData";
+import { getStoreData } from "@/app/_lib/getStoreData";
+import { setStoreData } from "@/app/_lib/setStoreData";
 import { StoreType } from "@/app/page";
 import useAddress from "@/hooks/useAddressStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";

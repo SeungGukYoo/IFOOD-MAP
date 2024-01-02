@@ -1,12 +1,12 @@
-import { deleteLikeData } from "@/app/lib/deleteLikeData";
-import { setLikeData } from "@/app/lib/setLikeData";
+import { deleteLikeData } from "@/app/_lib/deleteLikeData";
+import { setLikeData } from "@/app/_lib/setLikeData";
 import { StoreType } from "@/app/page";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 const useLikeStore = (store: StoreType) => {
   const queryClient = useQueryClient();
-  const [like, setLike] = useState(!!store.likes.length);
+  const [like, setLike] = useState(!!store.likes?.length);
   const likeStore = async (storeId: string) => {
     try {
       const response = await setLikeData(storeId);

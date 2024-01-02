@@ -1,6 +1,6 @@
-import { StoreType } from "@/app/page";
 import { auth } from "@/util/auth";
 import prisma from "@/util/prismaClient";
+import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 interface IStoreType {
@@ -17,23 +17,35 @@ interface IStoreType {
 
 export async function GET(req: NextRequest) {
   const id = req.nextUrl.searchParams.get("id");
-  const autoInfo = await auth();
+  const authInfo = await auth();
 
   if (!id) {
     return NextResponse.json({ message: "존재하지 않는 정보입니다." }, { status: 404 });
   }
-  const data = await prisma.store.findUnique({
+  const prismaStoreOption: Prisma.StoreFindUniqueArgs = {
     where: {
       id: parseInt(id),
     },
     include: {
-      likes: {
-        where: autoInfo?.user.access_token?.sub
-          ? { userId: parseInt(autoInfo?.user.access_token?.sub), storeId: parseInt(id) }
-          : {},
+      comments: {
+        include: {
+          user: true,
+        },
       },
     },
-  });
+  };
+  if (authInfo?.user.access_token?.sub) {
+    prismaStoreOption.include = {
+      ...prismaStoreOption.include,
+      likes: {
+        where: {
+          userId: parseInt(authInfo?.user.access_token?.sub),
+          storeId: parseInt(id),
+        },
+      },
+    };
+  }
+  const data = await prisma.store.findUnique(prismaStoreOption);
 
   return NextResponse.json(data, { status: 200 });
 }
@@ -49,7 +61,7 @@ export async function POST(req: Request) {
   });
   return NextResponse.json(store, { status: 201 });
 }
-export async function PATCH(req: Request) {
+export async function PUT(req: Request) {
   const { data } = await req.json();
   const store = await prisma.store.update({
     where: {

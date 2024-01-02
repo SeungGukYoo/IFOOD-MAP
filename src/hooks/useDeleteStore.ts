@@ -1,6 +1,7 @@
-import deleteStoreData from "@/app/lib/deleteStoreData";
+import deleteStoreData from "@/app/_lib/deleteStoreData";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+
 import useSearchStore from "./useSearchStore";
 
 const useDeleteStore = (id: string | string[]) => {

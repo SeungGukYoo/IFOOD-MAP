@@ -1,6 +1,6 @@
 import { auth } from "@/util/auth";
 import React from "react";
-import MyPageBox from "../(components)/MyPageBox";
+import MyPageBox from "../_components/MyPageBox";
 
 const MyPage = async () => {
   const authInfo = await auth();

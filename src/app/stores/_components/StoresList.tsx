@@ -3,9 +3,9 @@
 import useStoresList from "@/hooks/useStoresList";
 import React from "react";
 import { IoMdArrowDropup } from "react-icons/io";
-import ErrorBox from "./ErrorBox";
-import LoadingCard from "./LoadingCard";
-import LoadingPing from "./LoadingPing";
+import ErrorBox from "../../(common)/_components/ErrorBox";
+import LoadingCard from "../../(common)/_components/LoadingCard";
+import LoadingPing from "../../(common)/_components/LoadingPing";
 import StoreListBox from "./StoreListBox";
 import StoresSearchBox from "./StoresSearchBox";
 

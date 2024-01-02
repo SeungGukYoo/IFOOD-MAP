@@ -1,8 +1,8 @@
 import { auth } from "@/util/auth";
 import prisma from "@/util/prismaClient";
+import type { Prisma } from "@prisma/client";
 import { NextResponse } from "next/dist/server/web/spec-extension/response";
 import { NextRequest } from "next/server";
-
 export async function GET(req: NextRequest) {
   if (req.nextUrl.searchParams.get("page")) {
     const districtQuery = req.nextUrl.searchParams.get("district");
@@ -24,16 +24,20 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ data: stores, dataSize, page: pageQuery, totalPage: Math.ceil(dataSize / 20) });
   } else {
-    const subId = req.nextUrl.searchParams.get("id");
-    const stores = await prisma.store.findMany({
+    const storePrismaOption: Prisma.StoreFindManyArgs = {
       orderBy: { id: "asc" },
-      include: {
+    };
+    const subId = req.nextUrl.searchParams.get("id");
+    if (subId) {
+      storePrismaOption.include = {
         likes: {
-          where: subId ? { userId: parseInt(subId) } : {},
+          where: {
+            userId: parseInt(subId),
+          },
         },
-      },
-    });
-
+      };
+    }
+    const stores = await prisma.store.findMany(storePrismaOption);
     return NextResponse.json({ data: stores });
   }
 }

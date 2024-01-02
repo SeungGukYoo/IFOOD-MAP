@@ -1,6 +1,5 @@
 "use client";
-
-import getStoresPageData from "@/app/lib/getStorePageData";
+import getStoresPageData from "@/app/_lib/getStorePageData";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import useSearchStore from "./useSearchStore";

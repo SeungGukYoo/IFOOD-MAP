@@ -1,8 +1,7 @@
 "use client";
-import AddFormBox from "@/components/AddFormBox";
-import FormBox from "@/components/FormBox";
 
 import React from "react";
+import AddFormBox from "../_components/AddFormBox";
 
 const NewPage = () => {
   return (

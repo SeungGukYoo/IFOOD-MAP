@@ -1,10 +1,10 @@
 "use client";
 
-import { getStoreData } from "@/app/lib/getStoreData";
-import ErrorBox from "@/components/ErrorBox";
-import StoreDatailBox from "@/components/StoreDatailBox";
+import ErrorBox from "@/app/(common)/_components/ErrorBox";
+import { getStoreData } from "@/app/_lib/getStoreData";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import StoreDetailBox from "../_components/StoreDetailBox";
 
 const DetailPage = ({ params }: { params: { slug: string } }) => {
   const { data, isLoading, isError, isSuccess } = useQuery({
@@ -19,7 +19,7 @@ const DetailPage = ({ params }: { params: { slug: string } }) => {
   return (
     <>
       {isLoading && <h1>loading!!</h1>}
-      {isSuccess && <StoreDatailBox store={data} />}
+      {isSuccess && <StoreDetailBox store={data} />}
     </>
   );
 };
