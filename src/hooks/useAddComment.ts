@@ -1,4 +1,5 @@
 "use client";
+import setCommentData from "@/app/lib/setCommentData";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import useCommentMutation from "./useCommentMutation";
@@ -12,7 +13,12 @@ export interface CommentDataObject {
 const useAddComment = (storeId: number) => {
   const [content, setContent] = useState("");
   const session = useSession();
-  const { mutate: submitAddCommentData } = useCommentMutation(storeId);
+  const submitAddCommentData = useCommentMutation(
+    (data) => {
+      return setCommentData(data as CommentDataObject);
+    },
+    ["store", storeId.toString()]
+  );
 
   const onChangeContent = (e: React.ChangeEvent<HTMLInputElement> & React.KeyboardEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -35,12 +41,9 @@ const useAddComment = (storeId: number) => {
       storeId,
       content,
     };
-    submitAddCommentData(
-      { commentData: commentDataObject },
-      {
-        onSuccess: onSuccessCallback,
-      }
-    );
+    submitAddCommentData.mutate(commentDataObject, {
+      onSuccess: onSuccessCallback,
+    });
   };
 
   return { content, onChangeContent, onSumbitComment };
