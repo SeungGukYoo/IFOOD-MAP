@@ -1,7 +1,6 @@
 import { CommentDataObject } from "@/hooks/useAddComment";
-import React from "react";
 
-type CommentDataType = CommentDataObject | string;
+export type CommentDataType = CommentDataObject | string;
 
 const setCommentData = async (data: CommentDataType, commentId?: number) => {
   try {

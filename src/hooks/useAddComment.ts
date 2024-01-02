@@ -1,5 +1,5 @@
 "use client";
-import setCommentData from "@/app/lib/setCommentData";
+import setCommentData from "@/app/_lib/setCommentData";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import useCommentMutation from "./useCommentMutation";

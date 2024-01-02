@@ -1,4 +1,4 @@
-import setCommentData from "@/app/lib/setCommentData";
+import setCommentData from "@/app/_lib/setCommentData";
 import { Comment } from "@/app/page";
 import React, { useState } from "react";
 import useCommentEditStore from "./useCommentEditStore";

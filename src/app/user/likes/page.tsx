@@ -1,5 +1,5 @@
-import { getLikesData } from "@/app/lib/getLikesData";
-import getQueryClient from "@/app/lib/getQueryClient";
+import { getLikesData } from "@/app/_lib/getLikesData";
+import getQueryClient from "@/app/_lib/getQueryClient";
 import LikesStoreList from "@/app/stores/_components/LikesStoreList";
 import { auth } from "@/util/auth";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";

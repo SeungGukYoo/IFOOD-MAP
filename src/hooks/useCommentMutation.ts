@@ -1,4 +1,4 @@
-import { CommentDataType } from "@/app/lib/setCommentData";
+import { CommentDataType } from "@/app/_lib/setCommentData";
 import { MutationFunction, MutationKey, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export interface UseCommentMutation {

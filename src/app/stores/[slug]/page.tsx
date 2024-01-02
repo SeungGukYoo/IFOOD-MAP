@@ -1,7 +1,7 @@
 "use client";
 
 import ErrorBox from "@/app/(common)/_components/ErrorBox";
-import { getStoreData } from "@/app/lib/getStoreData";
+import { getStoreData } from "@/app/_lib/getStoreData";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import StoreDetailBox from "../_components/StoreDetailBox";

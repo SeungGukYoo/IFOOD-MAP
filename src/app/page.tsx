@@ -1,5 +1,5 @@
 import { auth } from "@/util/auth";
-import { getStoresData } from "./lib/getStoresData";
+import { getStoresData } from "./_lib/getStoresData";
 import Map from "./stores/_components/Map";
 
 type NullAble<T> = T | null;

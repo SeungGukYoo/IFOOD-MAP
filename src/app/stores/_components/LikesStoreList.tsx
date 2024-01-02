@@ -1,6 +1,6 @@
 "use client";
 
-import { getLikesData } from "@/app/lib/getLikesData";
+import { getLikesData } from "@/app/_lib/getLikesData";
 import { StoreType } from "@/app/page";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";

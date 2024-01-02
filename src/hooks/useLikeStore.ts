@@ -1,5 +1,5 @@
-import { deleteLikeData } from "@/app/lib/deleteLikeData";
-import { setLikeData } from "@/app/lib/setLikeData";
+import { deleteLikeData } from "@/app/_lib/deleteLikeData";
+import { setLikeData } from "@/app/_lib/setLikeData";
 import { StoreType } from "@/app/page";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";

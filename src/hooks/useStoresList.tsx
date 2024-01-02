@@ -1,8 +1,8 @@
 "use client";
+import getStoresPageData from "@/app/_lib/getStorePageData";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import useSearchStore from "./useSearchStore";
-import getStoresPageData from "@/app/lib/getStorePageData";
 
 const useStoresList = () => {
   const topPos = useRef<HTMLDivElement | null>(null);

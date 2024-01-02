@@ -1,12 +1,11 @@
 "use client";
 
-import { setStoreData } from "@/app/lib/setStoreData";
+import { setStoreData } from "@/app/_lib/setStoreData";
 import { StoreType } from "@/app/page";
 import useAddress from "@/hooks/useAddressStore";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import FormBox from "./FormBox";
-
 
 const AddFormBox = () => {
   const router = useRouter();

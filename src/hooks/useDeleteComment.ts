@@ -1,4 +1,4 @@
-import deleteCommentData from "@/app/lib/deleteCommentData";
+import deleteCommentData from "@/app/_lib/deleteCommentData";
 import { Comment } from "@/app/page";
 import useCommentMutation from "./useCommentMutation";
 import usePopupStore from "./usePopupStore";

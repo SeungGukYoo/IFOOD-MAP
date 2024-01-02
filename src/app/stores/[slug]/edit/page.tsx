@@ -1,5 +1,5 @@
-import getQueryClient from "@/app/lib/getQueryClient";
-import { getStoreData } from "@/app/lib/getStoreData";
+import getQueryClient from "@/app/_lib/getQueryClient";
+import { getStoreData } from "@/app/_lib/getStoreData";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import React from "react";
 import EditFormBox from "../../_components/EditFormBox";
