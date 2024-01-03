@@ -1,3 +1,4 @@
+
 import { getLikesData } from "@/app/_lib/getLikesData";
 import getQueryClient from "@/app/_lib/getQueryClient";
 import LikesStoreList from "@/app/stores/_components/LikesStoreList";
