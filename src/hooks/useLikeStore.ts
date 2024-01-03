@@ -2,9 +2,11 @@ import { deleteLikeData } from "@/app/_lib/deleteLikeData";
 import { setLikeData } from "@/app/_lib/setLikeData";
 import { StoreType } from "@/app/page";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const useLikeStore = (store: StoreType) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const [like, setLike] = useState(!!store.likes?.length);
   const likeStore = async (storeId: string) => {
@@ -15,9 +17,9 @@ const useLikeStore = (store: StoreType) => {
       console.error(error);
     }
   };
-  const unlikeStore = async (likeId: string) => {
+  const unlikeStore = async (storeId: number, userId: number) => {
     try {
-      await deleteLikeData(likeId);
+      await deleteLikeData(storeId, userId);
       return;
     } catch (error) {
       console.error(error);
@@ -26,14 +28,15 @@ const useLikeStore = (store: StoreType) => {
   const updateLike = async (storeId?: number) => {
     if (!storeId) return;
     if (like) {
-      const changeTypeLikeId = store.likes[0].id.toString();
-      await unlikeStore(changeTypeLikeId);
+      const deleteStoreId = store.likes![0].storeId;
+      const deleteUserId = store.likes![0].userId;
+      await unlikeStore(deleteStoreId, deleteUserId);
     } else {
       const changeTypeStoreId = storeId.toString();
       await likeStore(changeTypeStoreId);
     }
-    await queryClient.invalidateQueries({ queryKey: ["store", storeId.toString()] });
-    setLike((prev) => !prev);
+    queryClient.invalidateQueries({ queryKey: ["store", storeId.toString()] });
+    setLike((prev) => (prev = !prev));
   };
 
   return { like, updateLike };
