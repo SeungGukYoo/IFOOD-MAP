@@ -1,14 +1,11 @@
 "use client";
 import useNavigationBar from "@/hooks/useNavigationBar";
-import { signOut } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
-import { AiOutlineClose } from "react-icons/ai";
-import { BiMenu } from "react-icons/bi";
-import LoadingSpiner from "./LoadingSpiner";
+import AuthNavigationLinksBox from "./AuthNavigationLinksBox";
+import MobileNavbar from "./MobileNavbar";
 
 const Navbar = () => {
-  const { session, isOpen, setIsOpen, moveHomepage } = useNavigationBar();
+  const { moveHomepage } = useNavigationBar();
 
   return (
     <>
@@ -26,70 +23,10 @@ const Navbar = () => {
           <Link className="navigation__btn" href="/user/likes">
             찜한 가게
           </Link>
-          {session?.status === "authenticated" || session?.status === "unauthenticated" ? (
-            <>
-              {session?.status === "authenticated" ? (
-                <>
-                  <Link className="navigation__btn" href="/user/mypage">
-                    나의 정보
-                  </Link>
-                  <button
-                    className="navigation__btn"
-                    onClick={() => signOut({ callbackUrl: "http://localhost:3000/" })}
-                  >
-                    로그아웃
-                  </button>
-                </>
-              ) : (
-                <Link className="navigation__btn" href="/user/login">
-                  로그인
-                </Link>
-              )}
-            </>
-          ) : (
-            <LoadingSpiner />
-          )}
+          <AuthNavigationLinksBox linkStyle="navigation__btn" />
         </div>
-        <div role="presentation" className="text-2xl px-5 md:hidden" onClick={() => setIsOpen((prev) => !prev)}>
-          {isOpen ? <AiOutlineClose /> : <BiMenu />}
-        </div>
+        <MobileNavbar />
       </div>
-
-      {isOpen && (
-        <div className="fixed w-full top-[52px] h-full backdrop-blur z-50">
-          <div className="flex flex-col items-start px-[18px] py-[24px] gap-4">
-            <Link onClick={() => setIsOpen((prev) => (prev = false))} href="/stores">
-              맛집 목록
-            </Link>
-            <Link onClick={() => setIsOpen((prev) => (prev = false))} href="/stores/new">
-              맛집 등록
-            </Link>
-            <Link onClick={() => setIsOpen((prev) => (prev = false))} href="/user/likes">
-              찜한 가게
-            </Link>
-            {session?.status === "authenticated" || session?.status === "unauthenticated" ? (
-              <>
-                {session?.status === "authenticated" ? (
-                  <button
-                    onClick={() => {
-                      signOut({ callbackUrl: "http://localhost:3000/" });
-                      setIsOpen((prev) => (prev = false));
-                    }}
-                  >
-                    로그아웃
-                  </button>
-                ) : (
-                  <Link href="/user/login" onClick={() => setIsOpen((prev) => (prev = false))}>
-                    로그인
-                  </Link>
-                )}
-              </>
-            ) : (
-              <LoadingSpiner />
-            )}
-          </div>
-        </div>
-      )}
     </>
   );
 };
