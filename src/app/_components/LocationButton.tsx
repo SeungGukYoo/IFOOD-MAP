@@ -8,7 +8,7 @@ const LocationButton = () => {
 
   return (
     <button
-      className="p-2 bg-[#fff] fixed right-[10px] bottom-[60px] shadow-lg z-50 items-center rounded-md"
+      className="p-2 bg-[#fff] fixed right-[10px] bottom-[60px] shadow-lg z-[45] items-center rounded-md"
       onClick={getUserLocation}
     >
       <MdOutlineMyLocation className="h-5 w-5" />

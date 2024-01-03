@@ -25,7 +25,7 @@ const AuthNavigationLinksBox = ({ setIsOpen, linkStyle }: AuthNavigationLinksBox
                 className={linkStyle}
                 onClick={() => {
                   signOut({ callbackUrl: process.env.NEXT_PUBLIC_API_URL });
-                  setIsOpen && setIsOpen((prev) => (prev = false));
+                  setIsOpen && setIsOpen(false);
                 }}
               >
                 로그아웃
@@ -36,7 +36,7 @@ const AuthNavigationLinksBox = ({ setIsOpen, linkStyle }: AuthNavigationLinksBox
               href="/user/login"
               className={linkStyle}
               onClick={() => {
-                setIsOpen && setIsOpen((prev) => (prev = false));
+                setIsOpen && setIsOpen(false);
               }}
             >
               로그인
