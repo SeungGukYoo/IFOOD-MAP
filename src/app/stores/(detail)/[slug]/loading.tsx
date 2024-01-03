@@ -1,12 +1,12 @@
 import LoadingSpiner from "@/app/_components/LoadingSpiner";
 import React from "react";
 
-const Loading = () => {
+const loading = () => {
   return (
-    <div className="w-full h-[100vh] flex justify-center items-center z-100">
+    <div className=" w-full h-screen flex justify-center items-center">
       <LoadingSpiner />
     </div>
   );
 };
 
-export default Loading;
+export default loading;

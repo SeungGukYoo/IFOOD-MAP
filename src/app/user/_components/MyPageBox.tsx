@@ -1,4 +1,5 @@
 "use client";
+
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
@@ -39,7 +40,7 @@ const MyPageBox = ({ userInfo }: { userInfo: UserInfo }) => {
           <div className="col-span-3">
             <button
               className="text-lg text-gray-400"
-              onClick={() => signOut({ callbackUrl: "http://localhost:3000/" })}
+              onClick={() => signOut({ callbackUrl: process.env.NEXT_PUBLIC_API_URL })}
             >
               로그아웃
             </button>

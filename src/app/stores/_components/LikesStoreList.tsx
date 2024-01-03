@@ -4,7 +4,7 @@ import { getLikesData } from "@/app/_lib/getLikesData";
 import { StoreType } from "@/app/page";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import LoadingCard from "../../(common)/_components/LoadingCard";
+import LoadingCard from "../../_components/LoadingCard";
 import StoreListBox from "./StoreListBox";
 
 export interface StoreLike {

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import StoresList from "./_components/StoresList";
+import StoresList from "../_components/StoresList";
 
 const Stores = () => {
   return <StoresList />;

@@ -1,6 +1,6 @@
 "use client";
 
-import LocationButton from "@/app/(common)/_components/LocationButton";
+import LocationButton from "@/app/_components/LocationButton";
 import { StoresType } from "@/app/page";
 import useMap from "@/hooks/useMap";
 import { usePathname } from "next/navigation";

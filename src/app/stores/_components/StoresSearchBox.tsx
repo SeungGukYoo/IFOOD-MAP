@@ -10,7 +10,7 @@ const StoresSearchBox = () => {
   const { changeName, changeDistrict } = useSearchStore();
 
   return (
-    <div className="w-full flex justify-between gap-3 py-8">
+    <div className="w-full flex justify-between gap-3 py-4">
       <div role="presentation" className="relative w-full h-[45px]">
         <input
           name="storeSearchInput"

@@ -4,7 +4,6 @@ export const getStoresData = async (id?: string) => {
     if (id) {
       url += `?id=${id}`;
     }
-
     const res = await fetch(url, {
       cache: "no-store",
     });
