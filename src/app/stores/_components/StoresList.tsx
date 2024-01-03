@@ -1,11 +1,12 @@
 "use client";
 
 import useStoresList from "@/hooks/useStoresList";
+import Link from "next/link";
 import React from "react";
 import { IoMdArrowDropup } from "react-icons/io";
-import ErrorBox from "../../(common)/_components/ErrorBox";
-import LoadingCard from "../../(common)/_components/LoadingCard";
-import LoadingPing from "../../(common)/_components/LoadingPing";
+import ErrorBox from "../../_components/ErrorBox";
+import LoadingCard from "../../_components/LoadingCard";
+import LoadingPing from "../../_components/LoadingPing";
 import StoreListBox from "./StoreListBox";
 import StoresSearchBox from "./StoresSearchBox";
 
@@ -22,10 +23,14 @@ const StoresList = () => {
   } = useStoresList();
 
   if (isError) {
-    return <ErrorBox />;
+    return (
+      <ErrorBox text="해당 데이터가 존재하지 않습니다.">
+        <Link href="/stores">뒤로가기</Link>
+      </ErrorBox>
+    );
   }
   return (
-    <div className="max-w-[1024px] mx-auto px-4  relative z-10" ref={topPos}>
+    <div className="relative z-10" ref={topPos}>
       <StoresSearchBox />
 
       {isLoading && <LoadingCard />}
