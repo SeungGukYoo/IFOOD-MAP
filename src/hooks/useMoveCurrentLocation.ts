@@ -1,13 +1,15 @@
+import useGlobalLoadingStore from "./useGlobalLoadingStore";
 import useLocationStore from "./useLocationStore";
 import useMapStore from "./useMapStore";
 
 const useMoveCurrentLocation = () => {
+  const map = useMapStore.getState().map;
   const { changeCoordinates } = useLocationStore();
-  const { getMap } = useMapStore();
+  const { setIsLoading } = useGlobalLoadingStore();
   return () => {
-    const map = getMap();
     if (!map) return;
     if (navigator.geolocation) {
+      setIsLoading(true);
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const lat = position.coords.latitude;
@@ -16,6 +18,7 @@ const useMoveCurrentLocation = () => {
             changeCoordinates(lat, lng);
             const movePosition = new kakao.maps.LatLng(lat, lng);
             map.setCenter(movePosition);
+            setIsLoading(false);
           }
         },
         (error) => {
