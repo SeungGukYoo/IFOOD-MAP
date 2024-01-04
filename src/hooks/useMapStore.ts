@@ -5,17 +5,11 @@ interface Store {
 }
 
 interface Action {
-  getMap: () => kakao.maps.Map | void;
   setMap: (map: kakao.maps.Map) => void;
 }
 
-const useMapStore = create<Store & Action>()((set, get) => ({
+const useMapStore = create<Store & Action>()((set) => ({
   map: undefined,
-  getMap: () => {
-    if (get().map) {
-      return get().map;
-    }
-  },
   setMap: (map) => {
     if (map) {
       set({ map });
