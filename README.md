@@ -1,14 +1,17 @@
-# iFOOD Map
+# iFOOD Map (맛집 지도 공유 사이트)
 
-사람들과 맛집을 공유하는 사이트입니다.
+<img src="https://github.com/SeungGukYoo/IFOOD-MAP/assets/119836116/45655bdc-1188-49b1-b1a0-4132074b67d8" width='200'>
+
+iFOOD는 지도를 통해서 주변 맛집을 쉽게 찾고, 다른 사람들과 맛집을 공유할 수 있는 프로젝트입니다.
 
 ## 목차
 
 - [프로젝트 개요](#프로젝트-개요)
+- [사용 기술](#사용-기술)
+- [주요 기능](#주요-기능)
 - [프로젝트 구조](#프로젝트-구조)
-- [프로젝트 배포 링크](#배포-링크)
 - [프로젝트 설치 및 실행](#프로젝트-설치-및-실행)
-- [문제와 해결 방법](#문제와-해결-방법)
+- [고민한 문제와 해결 방법](#고민한-문제와-해결-방법)
   - [1번 문제: 카카오 지도 렌더링 관리](#1-카카오-지도-렌더링-관리)
   - [2번 문제: SSR 페이지와 &lt;Script/&gt; 컴포넌트의 사용으로 인한 렌더링 재발생](#2-ssr-페이지와-script-컴포넌트의-사용으로-인한-렌더링-재발생)
   - [3번 문제: React-query의 Hydrate-과정](#3-react-query의-hydrate-과정)
@@ -18,7 +21,7 @@
 
 ## 프로젝트 개요
 
-해당 프로젝트는 사용자가 지도를 통해 주변 맛집을 찾고, 맛집을 등록하여 여러 사용자간 맛집을 공유하는 프로젝트입니다.
+해당 프로젝트는 사용자가 지도를 통해 주변 맛집을 찾고, 맛집을 등록하여 여러 사람들과 맛집을 공유하는 웹 사이트입니다.
 
 ### 제작 기간
 
@@ -26,23 +29,23 @@
 
 - 업데이트 및 리팩토링: 2024년 1월 ~ 현재
 
+### 배포 링크
+
+**[Vercel 배포 링크](https://ifood-map.vercel.app/)**
+
 ### 프로젝트 목표
 
-해당 프로젝트를 시작하게 된 계기는 평소에 사용해보고 싶었던 Daum Post를 사용하고, Next.js 역량 향상과 Supabase, React-query를 학습하고 사용하기 위해 시작하였습니다.
+- 평소 사용해보고 싶었던 API 사용
+  - Daum Post
+  - Geolocation
+- 평소 사용해보고 싶었던 라이브러리 사용
+  - Zustand
+  - Supabase
+- 역량 향상
+  - React-Query
+  - Next.js
 
-### 주요 기능
-
-1. 로그인한 사용자에 한하여 식당을 찜하거나, 식당 게시글에 댓글 작성하여 사용자들간 소통을 할 수 있습니다.
-
-2. React-query를 사용하여 CRUD를 구성하고, 무한 스크롤 기능을 구현하였습니다.
-
-3. 카카오 지도를 통해 지도에 식당의 정보를 확인할 수 있습니다.
-
-4. Daum Post를 사용하여 실제 주소를 검색하고, 이를 사용하여 카카오 지도에 식당의 위치를 표시하게 됩니다.
-
-5. 네이버와 구글, 카카오 로그인을 지원하여 소셜 로그인을 통해 로그인을 할 수 있습니다.
-
-### 사용 기술
+## 사용 기술
 
 - **Language**
 
@@ -85,6 +88,65 @@
 
   ![Prettier](https://img.shields.io/badge/prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white)
   ![ESLint](https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white)
+
+## 주요 기능
+
+#### **Common**
+
+- Next-Auth의 토큰의 유무에 따른 페이지간 접근 관리(Middleware 사용)
+- `<Script>` 컴포넌트를 사용하여 스크립트 코드 최적화
+- `<Script>` 컴포넌트 렌더링 관리(**afterInteractive**, **onReady**)
+- React-query의 `useQuery`와 `useMutate` 함수를 사용하여 CRUD 구성
+- Supabase를 사용하여 식당, 찜한 식당, 댓글, 유저 정보 관리
+- Prisma를 사용하여 Supabase 데이터 필터링
+
+#### **메인 페이지(경로: / )**
+
+- SSR을 통한 렌더링(Cache 미사용, 12버전: getServerSideProps)
+- 카카오 지도에 식당의 위치 마커로 표시
+- 식당 클릭시 상세 페이지로 이동확인을 위한 팝업 기능 구현
+- Geolocation API를 사용하여 현재 위치 이동 기능 구현
+
+#### **식당 목록 페이지(경로: /stores )**
+
+- Zustand를 사용하여 필터링 쿼리 관리
+- React-Query를 사용하여 무한 스크롤 구현
+- 전역으로 관리되는 필터링 데이터 변경시 필터링 조건에 맞는 데이터 재호출
+- 디바운싱 기능이 적용된 검색창 구현
+
+#### **식당 상세 페이지(경로: /stroe/:slug )**
+
+- React-Query를 사용하여 데이터 호출 및 캐싱
+- 로그인한 상태인 경우에는 댓글 입력창 활성화
+- 댓글 기능 구현
+- 댓글 삭제 및 수정 기능 구현
+- 현재 식당의 위도/경도를 바탕으로 지도 생성
+- 찜한 상태에 따른 찜 버튼 UI 스타일 변경
+- 작성자의 경우 수정 및 삭제 버튼 활성화
+
+#### **수정 페이지 (경로: /stores/:slug/edit )**
+
+- 캐싱된 데이터를 바탕으로 Form 구성
+- React-Hook-Form을 사용한 Form 관리
+- Daum Post를 사용하여 실제 주소 사용
+
+#### **추가 페이지 (경로: /stores/new)**
+
+- 수정 페이지와 Form과 동일
+
+#### **찜한 식당 페이지 (경로: /user/likes)**
+
+- SSR+React-Qeury를 통한 렌더링(Cache 사용)
+- 목록 아이템 클릭시 해당 식당의 상세 페이지로 이동
+
+#### **나의 정보 페이지 (경로: /user/mypage)**
+
+- Image 컴포넌트를 통한 프로필 이미지 최적화
+
+#### **로그인 페이지 (경로: /user/login)**
+
+- Next-Auth를 통한 로그인/로그아웃 관리
+- 토큰(세션) 유무에 따른 로그인(또는 로그아웃+나의 정보) 버튼 활성화
 
 ## 프로젝트 구조
 
@@ -221,10 +283,6 @@ src/
 
 </details>
 
-## 배포 링크
-
-**[Vercel 배포 링크](https://ifood-map.vercel.app/)**
-
 ## 프로젝트 설치 및 실행
 
 ### 로컬 환경 설치 및 실행
@@ -238,7 +296,8 @@ src/
 2.  환경 변수 파일 추가
 
     [카카오](https://next-auth.js.org/providers/kakao)와 [네이버](https://next-auth.js.org/providers/naver), [구글](https://next-auth.js.org/providers/google)의 auth 설정이 추가적으로 필요합니다.
-    해당 이름을 클릭하여 문서를 확인해 추가적인 설정을 완료해주세요
+
+    링크를 클릭하여 문서를 확인한 후 추가적인 환경 설정을 완료해주세요
 
     ```none
     <!-- Kakao Map  -->
@@ -262,74 +321,79 @@ src/
 
     ```bash
     yarn dev
+
+    <!-- or -->
+
+    yarn build && yarn start
     ```
 
-## 문제와 해결 방법
+## 고민한 문제와 해결 방법
 
 프로젝트를 진행하면서 발생했었던 문제와 해결한 방법입니다.
 
-#### 1. **카카오 지도 렌더링 관리**
+### 1. **카카오 지도 렌더링 관리**
 
-리액트에서 카카오 지도를 사용할 때는 `index.html`에 스크립트 코드를 삽입하여 실행하였는데, Next.js의 경우에는 `<Script>`컴포넌트를 통해서 렌더링 함으로 써 스크립트를 최적화하는데 도움이 된다. 그로인하여 `<Script>`컴포넌트의 추가적인 옵션을 통해서 렌더링 시점을 관리해줘야 한다.
+리액트에서 카카오 지도를 사용할 때는 `index.html`에 스크립트 코드를 삽입하여 실행하였는데, Next.js의 경우에는 `<Script>`컴포넌트를 사용하여 렌더링 함으로 써 스크립트 코드를 최적화하여 사용할 수 있습니다.
 
-- **lazyOnload vs afterInteractive**
+그로인하여 `<Script>`컴포넌트의 추가적인 옵션을 통해서 적절한 렌더링 시점을 관리해줘야 한다.
+
+- **lazyOnload vs <u>afterInteractive</u>**
 
   우선 두 전략의 차이점은 페이지의 모든 리소스를 가져온 후에 Script를 실행할 것인지 혹은 서버와 클라이언트간의 하이드레이션이 완료된 후에 실행할 것인지의 차이점이다.
 
-  - [afterInteractive](https://github.com/SeungGukYoo/IFOOD-MAP/assets/119836116/7c22b2c6-8439-4ed3-b732-c59b7b996522)
-  - [lazyOnload](https://github.com/SeungGukYoo/IFOOD-MAP/assets/119836116/b2af876b-67db-40be-acac-a30eeb5eb7fb)
+  - [afterInteractive 옵션에서 호출 시점](https://github.com/SeungGukYoo/IFOOD-MAP/assets/119836116/7c22b2c6-8439-4ed3-b732-c59b7b996522) : 0.376s
+  - [lazyOnload 옵션에서 호출 시점](https://github.com/SeungGukYoo/IFOOD-MAP/assets/119836116/b2af876b-67db-40be-acac-a30eeb5eb7fb) : 3.43s
 
-  그렇기에 lazyOnload의 경우에는 우선 순위가 낮은 스크립트를 호출할 때 주로 사용된다.
-  하지만 지도의 경우에는 우선순위가 높은 요소이기 때문에 lazyOnload보다는 기본 값인 afterInteractive에 실행하는 것이 옳다고 생각한다.
+  lazyOnload는 afterInteractive보다 약 3초 늦게 실행되는 것을 확인할 수 있습니다. 이처럼 lazyOnload의 경우에는 우선 순위가 낮은 스크립트를 호출할 때 사용하는 것을 권장하고 있습니다.
 
-- **onLoad vs onReady**
+  하지만 지도를 호출하기 위한 스크립트이 경우에는 우선순위가 높은 스크립트이기 때문에 lazyOnload보다는 afterInteractive를 통해서 스크립트 코드를 호출해야하는 것이 옳다고 생각하기 때문에 <u>**afterInteractive를 사용**</u>하여 스크립트 코드를 실행하였습니다.
 
-  이 두 옵션은 Script 코드가 로딩될 때와 준비가 되었을 때의 시점에 코드를 실행하는 옵션이다.
-  순서는 onLoad 후에 onReady인데 가장 큰 차이점으로는 **한번 실행**하느냐 **마운트 될 때**마다 실행하느냐의 차이점이 있다.
+- **onLoad vs <u>onReady</u>**
 
-  Kakao 지도의 경우에는 `<div id="map"/>`이 생성된 후 해당 div에 지도를 넣어주는 방식으로 진행되는데 onLoad와 onRead로 작성했을 떄 처음 마운트 될때에는 모두 제대로 실행되지만 다시 마운트(예시: 페이지를 이동했을 경우)가 되었을 떄는 onLoad의 경우에는 지도를 가져오지 못하게 된다.
+  이 두 옵션은 Script 코드가 로딩될 때와 준비가 되었을 때의 시점에 코드를 실행하는 옵션입니다.
+  순서는 onLoad가 먼저 실행되고, 이후에 onReady가 실행되게 되는데 이 둘의 가장큰 차이점은 **한번 실행**하느냐 **마운트 될 때마다** 실행하느냐의 차이점입니다.
 
-  그렇기에 지도를 통해 옳바른 동작을 하기 위해서는 onRead를 통해서 지도를 생성하는 함수를 호출해주면 된다.
+  그래서 onLoad로 실행한 경우에는 처음에는 정상적으로 동작을 하게 되지만 다시 마운트(예시: 페이지를 이동했을 경우)를 하는 경우에는 스크립트가 호출되지 않아 지도가 보여지지 않게 됩니다.
 
-script를 실행할 때 `<Sciprt/>`컴포넌트를 통해 렌더링 전략을 세운 뒤, 구현하고자 하는 동작에 맞게 옵션을 설정함으로 써 지도를 렌더링 할 때 성능을 개선하여 렌더링을 하였습니다.
+  그렇기에 매번 보여져야 하는 지도의 스크립트의 경우에는 onLoad 속성을 사용하는 것이 아닌 onReady를 통해서 스크립트를 호출함으로 마운트가 될 때마다 새로운 지도를 계속해서 호출하고 사용하는 것이 동작을 옳바르게 하기 때문에 <u>**onReady 옵션을 사용**</u>하였습니다.
 
-#### 2. **SSR 페이지와 `<Script/>` 컴포넌트의 사용으로 인한 렌더링 재발생**
+이처럼 스크립트를 실행할 때 `<Sciprt/>` 그냥 사용하는 것이 아닌 옵션을 적절하게 넣음으로 써 원하는 동작을 하고, 렌더링 또한 관리함으로 써 성능상에서도 최적화를 할 수 있게 되었습니다.
 
-상세 페이지에의 구성을 보면 해당 식당의 정보와 지도를 보여주게 된다.그래서 코드를 작성하기전 아래와 같이 구상하였다.
+### 2. **SSR 페이지와 `<Script/>` 컴포넌트의 사용으로 인한 렌더링 재발생**
+
+상세 페이지에의 구성을 보면 해당 식당의 정보와 지도를 보여주게 된다.그래서 코드를 작성하기전 아래와 같이 구상하였습니다.
 
 1. page.js에서 fetch를 통해 데이터를 호출(server component)한 후 데이터를 하위 컴포넌트에 전달
-2. props를 바탕으로 페이지 렌더링
+2. props를 바탕으로 페이지를 렌더링
 
-하지만 2번 과정에서 props로부터 받은 값을 바탕으로 지도를 제외한 데이터가 한번 보여진 후 `<Script/>`컴포넌트로 인해 다시 로딩이 걸린 다음 지도를 포함한 상세 페이지가 보여지는 현상이 발생하였습니다.
+하지만 2번 과정에서 props로부터 받은 값을 바탕으로 지도를 제외한 Form이 렌더링이 되고, `<Script/>`컴포넌트가 호출하는 함수로 인하여 지도가 포함된 페이지를 다시 한번 렌더링을 하였습니다.
 
-이를 해결하기 위해서 서버컴포넌트가 아닌 클라이언트 컴포넌트로 변경하였습니다.
-그로인해 렌더링이 두번 반복되는 것은 사라졌지만 서버 컴포넌트에서 클라이언트 컴포넌트로 변경하였기에 초기 렌더링이 늦어져 사용자의 경험이 감소하는 문제가 생기게 되었습니다.
+이는 서버사이드에서 미리 데이터를 받아 폼을 채워 렌더링을 하고, 지도의 `<Script/>` 컴포넌트가 호출하는 함수로 인하여 다시 한번 렌더링을 하는 현상으로 확인했습니다.
 
-그래서 이를 해결하기 위해 스켈레톤 UI(로딩 스피너)를 보여줌으로 사용자의 경험을 개선하였고, 추후에 Partial Rendering을 통해 지도만 다시 렌더링하게 변경해보고자 합니다.
+이를 해결하기 위해서 SSR을 통해서 데이터를 가져와 사용하는 것이 아닌 CSR에서 데이터를 가져오고 이를 사용하여 Form을 채우는 형식으로 변경하였습니다.
 
-#### 3. **React-query의 Hydrate 과정**
+그로인해 렌더링이 두번 반복되는 것은 사라졌지만 SSR에서 CSR로 변경하였기에 초기 렌더링이 늦어져 사용자가 사용하는데 불편함이 있을 수 있다고 생각했습니다.
 
-react-query와 Next.js에서 모두 캐싱 기능을 제공하는데 이 둘은 차이점도 존재한다. 그래서 대부분의 사람들이 Next.js 에서 굳이 React-query를 사용해야 하나라는 의문점도 갖고 있었고, 나 또한 이를 진행하면서 큰 고민이 있었지만 react-query는 캐싱 데이터를 바탕으로 여러가지 유용한 기능들을 제공하기 때문에 나는 같이 사용하는 것으로 정하였습니다.
+그래서 이를 해결하기 위해 스켈레톤 UI(로딩 스피너)를 보여줌으로 사용자의 불편을 조금이나마 개선하려고 하였으며, 추후에는 Partial Rendering을 통해 Form의 경우에는 SSR로 렌더링을 진행하고, 지도만 렌더링을 할 수 있게 변경해보고자 합니다.
 
-- 현재 상태
-  - 수정 페이지는 상세 페이지에서만 접근이 가능하다.
-  - 상세 페이지에 방문하였다면 해당 데이터는 react-query를 통해 캐싱이 되게 된다.
-  - 수정 페이지에 방문한다면 캐싱된 데이터를 기반으로 Form을 채워준다.
+### 3. **React-query의 Hydration 과정**
 
-저는 현재 상태를 고려하여 서버 사이드 렌더링을 통해 사용자에게 만들어진 페이지를 제공하고 싶었으며, react-query로 캐싱된 데이터가 있기 때문에 캐싱된 데이터를 하위 컴포넌트에 전달하고 싶었습니다.
+캐싱 기능을 사용할 때 가장 중요한 것은 싱글톤 패턴을 유지하여 사용자간 요청과 응답이 공유되지 않게 하는 것이 중요하며, 서버에서 받은 값은 Hydration과정을 거쳐 클라이언트와 동기화를 맞춰주어야 한다고 알고있습니다.
 
-이때 SSR페이지와 캐싱 기능을 구현할 때 중요한 것은 Hydrate과정이 중요한데, 만약 해당 과정이 이루어지지 않으면 데이터가 동기화가 되지 않아 예기치 못한 동작이 발생하게 됩니다.
+그래서 SSR 페이지의 경우에는 Hydration 과정이 필수로 존재해야 합니다.
 
-그렇기에 싱글톤 패턴을 유지한 상태로 프리 패칭한 데이터를 hydrate하는 과정이 필수로 포함되어야 했습니다.
+저는 찜한 식당 페이지의 경우에는 SSR을 통해서 렌더링을 하며, 식당을 클릭했을 때 해당 식당의 데이터를 react-query를 통해 캐싱하고자 하였습니다.
 
-그렇기에 서버 컴포넌트에서 Hydrate를 진행하기 위해 react-query의 공식문서를 참고하여 아래의 코드처럼 Hydrate를 진행하였습니다.
+이때 SSR페이지와 캐싱 기능을 구현할 때 중요한 것은 Hydration과정이 중요한데, 만약 해당 과정이 이루어지지 않으면 데이터가 동기화가 되지 않아 예기치 못한 동작이 발생하게 됩니다.
 
-1.  QueryClient(쿼리클라이언트)를 싱글톤 인스턴스로 생성해줍니다. 이를 통해 여러 사용자들간의 요청이 굥유되지 않게 됩니다.
+그렇기에 서버 컴포넌트에서 Hydration를 진행하기 위해 react-query의 공식문서를 참고하여 아래의 코드처럼 Hydration를 진행하였습니다.
+
+1.  QueryClient(쿼리클라이언트)를 싱글톤 인스턴스로 생성해줍니다. 이를 통해 여러 사용자들간의 요청과 응답이 공유되지 않게 됩니다.
     <details>
     <summary><b>코드 확인하기</b></summary>
 
     ```tsx
-    // app/getQueryClient.tsx
+    // src/app/getQueryClient.tsx
     import { QueryClient } from "@tanstack/react-query";
     import { cache } from "react";
 
@@ -345,43 +409,40 @@ react-query와 Next.js에서 모두 캐싱 기능을 제공하는데 이 둘은 
      <summary><b>코드 확인하기</b></summary>
 
     ```tsx
-    // app/stores/(detail)/[slug]/edit/page.tsx
-    import getQueryClient from "@/app/\_lib/getQueryClient";
-    import { getStoreData } from "@/app/\_lib/getStoreData";
+    // src/app/user/likes/page.tsx
+    import { getLikesData } from "@/app/_lib/getLikesData";
+    import getQueryClient from "@/app/_lib/getQueryClient";
+    import LikesStoreList from "@/app/stores/_components/LikesStoreList";
+    import { auth } from "@/util/auth";
     import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
     import React from "react";
-    import EditFormBox from "../../../\_components/EditFormBox";
 
-    const EditPage = async ({ params }: { params: { slug: string } }) => {
-    const queryClient = getQueryClient();
-    await queryClient.prefetchQuery({
-    queryKey: ["store", params.slug],
-    queryFn: async () => {
-    const response = await getStoreData(params.slug);
-    return response;
-    },
-    staleTime: 60 _ 1000 _ 5,
-    });
-    const dehydratedState = dehydrate(queryClient);
-    return (
-    <>
-    <HydrationBoundary state={dehydratedState}>
-    <EditFormBox id={params.slug} />
-    </HydrationBoundary>
-    </>
-    );
+    const LikesPage = async () => {
+      const authInfo = await auth();
+      const queryClient = getQueryClient();
+      await queryClient.prefetchQuery({
+        queryKey: ["stores", "likes", authInfo?.user.access_token?.sub],
+        queryFn: () => getLikesData(authInfo?.user.access_token?.sub!),
+      });
+      const dehydrateState = dehydrate(queryClient);
+
+      return (
+        <HydrationBoundary state={dehydrateState}>
+          <LikesStoreList id={authInfo?.user.access_token?.sub!} />
+        </HydrationBoundary>
+      );
     };
 
-    export default EditPage;
+    export default LikesPage;
     ```
 
     </details>
 
-이렇게 Hydrate가 진행된 컴포넌트의 하위 컴포넌트에서는 props를 통해 데이터를 전달하거나 initialData를 선언하지 않아도, 서버 컴포넌트에서 미리 캐싱한 데이터에 접근하여 캐싱 데이터를 사용할 수 있게 되었습니다.
+이렇게 Hydration이 진행된 컴포넌트의 하위 컴포넌트에서는 props를 통해 데이터를 전달하거나 initialData를 선언하지 않아도, 프리패칭된 데이터에 접근하여 데이터를 사용할 수 있습니다.
 
 참고 문서: [Using the app Directory in Next.js 13](https://tanstack.com/query/v4/docs/react/guides/ssr#using-the-app-directory-in-nextjs-13)
 
-#### 4. **데이터 업데이트 후 지도에 반영되지 않는 현상**
+### 4. **데이터 업데이트 후 지도에 반영되지 않는 현상**
 
 수정 페이지에서 데이터를 수정한 후 react-query로 업데이트를 한 후 상세 페이지로 이동하게 되는데 이때 지도가 업데이트가 되지 않는 오류가 발생했습니다.
 
@@ -395,42 +456,50 @@ react-query와 Next.js에서 모두 캐싱 기능을 제공하는데 이 둘은 
 
 위 로직을 바탕으로 개발을 진행하였고, 발생한 문제는 아래와 같았습니다.
 
-1. **캐싱된 값이 변하지 않는 현상**
-   `useMutate`를 통해 데이터를 업데이트하였으며, Supabase에서도 업데이트가 되었지만 클라이언트 단에서 캐싱값이 업데이트가 되지 않았습니다.
+- **캐싱된 값이 변하지 않는 현상**
 
-해당 문제는 react-query를 처음 사용했기에 발생하는 문제였습니다.
-발생한 이유는 아래와 같았습니다.
+  `useMutate`를 통해 데이터를 업데이트하였으며, Supabase에서도 업데이트가 되었지만 클라이언트 단에서 캐싱 값이 업데이트가 되지 않음
+
+해당 문제는 react-query를 처음 사용했기에 발생하는 문제였으며,발생한 이유는 아래와 같았습니다.
 
 1. `useQuery`로 데이터 값을 가져온다. 이때 stale Time은 5분으로 설정한다.
 2. `useMutate`로 데이터를 업데이트하고 상세페이지로 넘어가게 된다. 이때 캐싱값은 업데이트 되지 않는다.
 3. `useQuery`는 stale Time이 아직 남아있기 때문에 기존의 캐싱된 값을 가져온다.
 
-이 처럼 업데이트 후 캐싱값이 변해야 한다면 `useQueryClient`를 통해 캐시 값을 업데이트를 해줘야 했습니다.
+이 처럼 `useMuate`로 데이터를 업데이트 후 캐싱값이 변해야 한다면 `useQueryClient`를 통해 캐시 값을 수동으로 업데이트를 해줘야 했습니다.
 
-2. **캐싱된 값은 변하지만 지도에서 예기치 않은 동작이 발생**
+그래서 이를 위해서 react-query에서도 `invalidateQueries`이라는 메서드를 지원하는데, 해당 메서드는 캐싱값을 수동으로 업데이트 할 수 있는 메서드입니다.
+
+그렇기에 `useMuate`로 데이터를 업데이트를 하였다면 `useQueryClient`의 `invalidateQueries` 메서드로 캐시값을 업데이트 하는 과정을 거침으로 써 캐싱된 값이 변하였고, 값이 변하지 않는 현상도 해결할 수 있었습니다.
+
+- **캐싱된 값은 변하지만 지도에서 예기치 않은 동작이 발생**
 
 위 문제를 해결하고 상세 페이지로 가게 되면 지도를 제외한 모든 정보는 업데이트가 되지만 지도의 경우에는 이전 주소와 현재 주소에 마커가 찍히는 현상이 발생했습니다.
 
-그래서 이를 해결하기 위해 지도를 보여주는 관리하는 `Map.tsx`파일에 어떤 위도와 경도가 들어오는지 확인해보았지만 관심사가 너무 많아 정확한 원인을 찾는데 어려움이 있었다.
-하지만 한가지 알아낸 것은 `afterInteractive`함수가 등록되고, 이후에 렌더링이 실행될 때 업데이트되기 전 값이 보여졌고, 이후에 업데이트 된 값이 출력되었다. 이로보았을 때 위도와 경도값이 다른 렌더링이 두번 등록되어서 발생한 문제라고 생각하였습니다.
+그래서 이를 해결하기 위해 지도를 보여주는 관리하는 `Map.tsx`파일에 어떤 위도와 경도가 들어오는지 확인해보았지만 하나의 함수에서 많은 관심사를 다뤄 정확한 원인을 찾는데 어려움이 있었습니다.
 
-이를 해결하기 위해서 코드를 수정하여야 했지만 하나의 함수에 관심사가 다른 비동기 로직을 모두 넣다보니 예기치 못하게 비동기 로직이 꼬이게 되어 문제가 발생했던 것이였습니다.
+하지만 한가지 알아낸 것은 `onReady`에서 지도를 생성하는 함수를 호출하고, 이후에 렌더링이 될 때 업데이트가 되기 전의 값을 바탕으로 마커가 보여지고, 이후에 업데이트 된 값을 바탕으로 또 다른 마커를 보여줬습니다.
 
-그래서 저는 함수의 관심사를 최대한 분리하기 위해 다시 코드를 작성했습니다.
+이로보았을 때 업데이트 되기 전과 업데이트 된 후의 위도와 경도값이 다른 렌더링 사이클로 두번 등록되어서 발생한 문제라고 생각하였습니다.
+
+이를 해결하기 위해서 코드를 수정하여야 했지만 하나의 함수에 관심사가 다른 비동기 로직을 모두 넣다보니 수정도 어렵고 정확한 원인을 찾아내는 것이 어려워 관심사를 최대한 분리해보고자 하였습니다.
 
 - **수정 이전**
-  - `Map.tsx`: 함수가 호출된 시점에서 `zustand`로 관리되는 위도와 경도 값을 가져온다.
-  - `FormBox.tsx`,`useAddStore.ts`: 추가와 수정 함수를 모두 관리
+  - `Map.tsx`: 지도를 생성하는 함수를 호출한다.
+  - `useMap.tsx`: 함수가 호출된 시점에서 `zustand`로 관리되는 위도와 경도 값을 바탕으로 지도를 생성한다.
+  - `FormBox.tsx`, `useAddStore.ts`: 추가와 수정을 위한 함수를 모두 관리한다. (하나의 파일에 관심사가 너무 많이 존재한다.)
 - **수정 이후**
-  - `Map.tsx`: 전달 값을 바탕으로 지도만 렌더링한다.
-  - `EditFormBox.tsx`: 수정을 하기위해 캐싱된 값으로부터 받아오고, mutate함수를 가지고 있다. 그리고 이를 `FormBox.tsx`에 전달해준다.
+  - `Map.tsx`: 지도를 생성하는 함수를 호출하는데 이때 생성할 지도에 대한 정보를 전달한다.
+  - `useMap.tsx`: 전달받은 값을 바탕으로 지도를 생성한다.
+  - `EditFormBox.tsx`: 수정을 하기 위해 캐싱된 값으로부터 식당 데이터를 받아오고, mutate함수를 가지고 있다. 그리고 이를 `FormBox.tsx`에 전달해준다.
   - `AddFormBox.tsx`: 추가를 위한 mutate함수를 가지고 있다. 그리고 이를 `FormBox.tsx`에 전달해준다.
-  - `FormBox.tsx`: Form 데이터를 렌더링해주는데 `props`로부터 Form 데이터를 받는다면 이를 바탕으로 내부 폼을 채워준다.
-  - `useStoreForm.ts`: 파라미터로부터 받은 mutate 함수를 실행만 시켜준다.
+  - `FormBox.tsx`: `props`로부터 Form 데이터를 바탕으로 Form 데이터를 렌더링해준다.
+  - `useStoreForm.ts`: `props`로부터 받은 mutate 함수를 실행만 시켜준다.
 
-이렇게 하나의 파일(함수가)이 하나의 목적만 갖게 나눈 후에 파일을 실행하니 발생했던 문제는 사라지게 되었고, 추후에 추가 혹은 변경되어야 하는 코드가 있다면 파일 전체를 다 수정하는 것이 아닌 실제 해당 관심사를 가지는 파일만 변경하면 `props`를 받아서 실행되는 함수(파일)들은 수정하지 않아도 동일하게 동작하기 때문에 유지보수 측면에서도 많이 좋아졌습니다.
+이렇게 하나의 파일(함수가)이 하나의 목적만 갖게 나눈 후에 파일을 수정하였더니
+발생했던 문제는 사라지게 되었고, 추후에 추가 혹은 변경되어야 하는 코드가 있다면 파일 전체를 다 수정하는 것이 아닌 실제 해당 관심사를 가지는 파일만 변경하면 `props`를 받아서 실행되는 함수(파일)들은 수정하지 않아도 동일하게 동작하기 때문에 유지보수 측면에서도 많이 좋아졌습니다.
 
-#### 5. **Next-auth의 타입 에러**
+### 5. **Next-auth의 타입 에러**
 
 로그인과 로그아웃을 위해 Next-auth를 사용하였고, 클라이언트 단에서 이를 사용하기 위해 공식문서를 참고하여 Session에 Token값을 저장해 Session을 확장시키려고 하였으나 타입에러가 발생하였습니다.
 
@@ -491,9 +560,9 @@ declare module "next-auth" {
 
 이렇게 수정을 하고 Next-auth의 Session callback에 `access_token`을 추가하여 `session`을 확장시킬 수 있었습니다.
 
-하지만 두번째 문제가 발생하였는데 확장된 session을 확인하기 위해 저장된 값을 확인하고자 하였으나 타입이 정확하게 매핑되지 않아 확인하고 싶은 값이 뜨지 않았습니다.
+하지만 두번째 문제가 발생하였는데 확장된 session을 확인하기 위해 코드를 쳐보았지만 원하고자 하는 키 값이 추천되지 않아서 타입에 문제가 있다고 판단했습니다.
 
-저는 이번에는 `JWT` 타입에서 문제가 발생하였을 것이라고 예상했고, 타입을 역추적하여 JWT의 타입을 확인해보았습니다.
+확장은 제대로 되었지만 `JWT` 타입에서 제대로 추천되지 않는 문제가 발생하였을 것이라고 생각했고, `JWT`타입을 역추적하여 타입을 확인해보았습니다.
 
 ```ts
 export interface DefaultJWT extends Record<string, unknown> {
@@ -563,6 +632,6 @@ declare module "next-auth" {
 
 - **UI/UX 개선**
 
-  팝업, 메뉴등이 나타나거나 사라질 때 애니메이션을 추가할 예졍입니다.
+  팝업, 메뉴등이 나타나거나 사라질 때 애니메이션을 추가할 예정입니다.
 
   또한 서버의 응답이 필요한 동작의 경우에는 현재 나타낼 수 있는 toast 메시지를 추가할 예정입니다.
